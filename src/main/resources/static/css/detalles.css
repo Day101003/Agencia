@@ -1,0 +1,124 @@
+body {
+    background-color: #f8f9fa;
+}
+.navbar {
+    background-color: #ffc60a;
+}
+.navbar-brand, .nav-link {
+    color: #333 !important;
+    font-weight: 500;
+}
+.navbar-brand:hover, .nav-link:hover {
+    color: #000 !important;
+}
+.navbar-brand img {
+    height: 10px;
+    margin-right: 1px;
+}
+.car-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+.car-info {
+    padding: 30px 15px;
+}
+.car-info h1 {
+    font-size: 2.5rem;
+    color: #343a40;
+    margin-bottom: 20px;
+}
+.car-info .price {
+    font-size: 1.8rem;
+    color: #265c32;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+.detail-item span:first-child {
+    font-weight: bold;
+    color: #495057;
+}
+.detail-item span:last-child {
+    color: #6c757d;
+}
+.btn-back {
+    background-color: #ffc107;
+    color: #212529;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+.btn-back:hover {
+    background-color: #e0a800;
+}
+.btn-cart {
+    background-color: #ffc107;
+    color: #333;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s;
+}
+.btn-cart:hover {
+    background-color: #e0a800;
+    color: #000;
+}
+.btn-cart i {
+    margin-right: 12px; /* Increased for more separation */
+    color: #333;
+}
+.btn-cart:hover i {
+    color: #000;
+}
+.buttons-container {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+@media (max-width: 768px) {
+    .car-info h1 {
+        font-size: 2rem;
+    }
+    .car-info .price {
+        font-size: 1.5rem;
+    }
+    .car-image {
+        max-height: 400px;
+        margin: auto;
+    }
+    .buttons-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .btn-back, .btn-cart {
+        width: 100%;
+        text-align: center;
+        margin: auto;
+    }
+}
+
+.detail-item.observaciones {
+    flex-direction: column; /* Cambia a columna para observaciones */
+    align-items: flex-start;
+}
+.detail-item.observaciones span:first-child {
+    flex: none;
+    margin-bottom: 5px;
+}
+.detail-item.observaciones span:last-child {
+    text-align: left;
+    overflow-wrap: break-word; /* Rompe palabras largas */
+    max-width: 100%; /* Limita el ancho al contenedor */
+}

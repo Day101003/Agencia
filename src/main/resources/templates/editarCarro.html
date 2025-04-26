@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Carro</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/carro.css" rel="stylesheet" />
+    <style>
+        .navbar-custom {
+            background-color: rgb(255, 198, 10);
+            /* Color amarillo */
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom fixed-top">
+        <a class="navbar-brand" href="/">Carros</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <a href="/controller_carro/listaCar" class="btn btn-warning text-dark fw-bold mr-3">Lista Carros</a>
+            </ul>
+            <a href="/controller_carro/opciones" class="btn btn-warning text-dark fw-bold mr-3">Detalles Carros</a>
+            <a href="/admin" class="btn btn-warning text-dark fw-bold">Administrador</a>
+        </div>
+    </nav>
+
+    <div class="container mt-5 pt-5">
+        <form action="/controller_carro/guardar" method="post" enctype="multipart/form-data" class="card">
+            <div class="card-header">
+                <h2>Editar Carro</h2>
+            </div>
+            <div class="card-body">
+                <input type="hidden" name="id_carro" th:value="${carros.id_carro}"/> <!-- Campo oculto para el ID del carro -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="precio_carro">Precio</label>
+                            <input type="number" name="precio_carro" class="form-control" th:value="${carros.precio_carro}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="color_carro">Color</label>
+                            <input type="text" name="color_carro" class="form-control" th:value="${carros.color_carro}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="estado">Estado</label>
+                            <select name="estado" class="form-control" required>
+                                <option value="1" th:selected="${carros.estado == 1}">activo</option>
+                                <option value="0" th:selected="${carros.estado == 0}">Inactivo</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="ano">Año</label>
+                            <input type="number" name="ano" class="form-control" th:value="${carros.ano}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="combustible">Combustible</label>
+                            <input type="text" name="combustible" class="form-control" th:value="${carros.combustible}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="numero_puertas">Puertas</label>
+                            <input type="number" name="numero_puertas" class="form-control" th:value="${carros.numero_puertas}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="observaciones">Observaciones</label>
+                            <input type="text" name="observaciones" class="form-control" th:value="${carros.observaciones}" required>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="transmision">Transmisión</label>
+                            <input type="text" name="transmision" class="form-control" th:value="${carros.transmision}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="kilometraje">Kilometraje</label>
+                            <input type="number" name="kilometraje" class="form-control" th:value="${carros.kilometraje}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="numero_placa">Placa</label>
+                            <input type="text" name="numero_placa" class="form-control" th:value="${carros.numero_placa}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="numero_vin">VIN</label>
+                            <input type="text" name="numero_vin" class="form-control" th:value="${carros.numero_vin}" required>
+                        </div>
+                        <div class="form-group">
+                            <select name="disponibilidad" class="form-control" required>
+                                <option value="1" th:selected="${carros.disponibilidad == 1}">Disponible</option>
+                                <option value="0" th:selected="${carros.disponibilidad == 0}">No Disponible</option>
+                            </select>
+                        </div>
+
+                        <label for="marca">Marca</label>
+                        <div class="form-group">
+                            <select class="form-control" name="marca" required>
+                                <option value="">Seleccione una marca</option>
+                                <option th:each="marca : ${marcas}" th:value="${marca.id_marca}"
+                                    th:text="${marca.nombre_marca}" th:selected="${carros.marca.id_marca == marca.id_marca}"></option>
+                            </select>
+                        </div>
+
+                        <label for="modelo">Modelo</label>
+                        <div class="form-group">
+                            <select class="form-control" name="modelo" required>
+                                <option value="">Seleccione un modelo</option>
+                                <option th:each="modelo : ${modelos}" th:value="${modelo.id_modelo}"
+                                    th:text="${modelo.nombre_modelo}" th:selected="${carros.modelo.id_modelo == modelo.id_modelo}"></option>
+                            </select>
+                        </div>
+
+                        <label for="tipo">Tipo</label>
+                        <div class="form-group">
+                            <select class="form-control" name="tipo" required>
+                                <option value="">Seleccione un tipo</option>
+                                <option th:each="tipo : ${tipos}" th:value="${tipo.id_tipo}" th:text="${tipo.nombre}" th:selected="${carros.tipo.id_tipo == tipo.id_tipo}"></option>
+                            </select>
+                        </div>
+
+                        <label for="imagen">Imagen</label>
+                        <div class="form-group">
+                            <select class="form-control" name="imagen" required>
+                                <option value="">Seleccione una imagen</option>
+                                <option th:each="imagen : ${imagen}" th:value="${imagen.id_imagen}" th:text="${imagen.ruta_imagen}" th:selected="${carros.imagenCarros.id_imagen == imagen.id_imagen}"></option>
+                            </select>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-warning mt-3">Guardar Cambios</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

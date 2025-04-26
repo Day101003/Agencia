@@ -1,0 +1,36 @@
+/* Estilos para la barra de navegación */
+.navbar-custom {
+  background-color: rgb(255, 198, 10);
+}
+
+/* Estilos para la tabla */
+.table-responsive {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
+.table .btn-group {
+  display: flex;
+  justify-content: center;
+}
+
+.table .btn-group .btn {
+  margin: 0 5px;
+}
+
+/* Estilos para los campos de selección */
+#car-type option:hover {
+  background-color: #ffd54f;
+  color: #333;
+}
+
+#car-brand,
+#car-model {
+  background-color: #ffd54f;
+  color: #333;
+}

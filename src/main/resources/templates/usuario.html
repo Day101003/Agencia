@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo de Administradores</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+    <link href="/css/admin.css" rel="stylesheet" />
+    
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom fixed-top">
+        <a class="navbar-brand" style="color: rgb(0, 0, 0);" href="">Administrador</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+            </ul>
+            <a href="/controller_carro/gestionar" class="btn btn-warning text-dark fw-bold mr-3">Agregar Carro</a>
+            <a href="/" class="btn btn-warning text-dark fw-bold mr-3">Salir</a>
+        </div>
+    </nav>
+
+    <form action="/admin/guardar" method="post" class="container mt-5" enctype="multipart/form-data">
+        <div class="card">
+            <div class="card-header">
+                <h2>Agregar Administrador</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contrasena">Contraseña</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="contrasena" name="contrasena" required>
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-outline-secondary" id="toggle-password">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="telefono">Teléfono</label>
+                            <input type="text" class="form-control" id="telefono" name="telefono" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="fechaRegistro">Fecha de registro</label>
+                            <input type="date" class="form-control" id="fechaRegistro" name="fechaRegistro" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="correo">Correo electrónico</label>
+                            <input type="email" class="form-control" id="correo" name="correo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="usuario-tipo">Tipo de Usuario</label>
+                            <select name="tipoUsuario" class="form-control" id="usuario-tipo" required>
+                                <option value="1" th:selected="${usuario != null && usuario.tipo_usuario == 1}">Administrador</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-4">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="ruta_imagen_usuario">Imagen</label>
+                            <input type="file" class="form-control-file" id="ruta_imagen_usuario" name="ruta_imagen_usuario" accept="image/*">
+                        </div>
+                        <div class="text-center">
+                            <button type="submitt" class="btn btn-warning mt-3">Agregar Usuario</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div th:if="${error}" class="alert alert-danger">
+        <p th:text="${error}"></p>
+    </div>
+
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                <h2>Lista de Administradores</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-md-4 mb-4" th:each="admin : ${listaUsuarios}" th:if="${admin.tipo_usuario == 1}">
+                        <div class="card admin-card">
+                            <img th:src="@{${admin.ruta_imagen_usuario}}" alt="Imagen de administrador" class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${admin.nombre}">Nombre</h5>
+                                <p class="card-text">
+                                    <strong>Correo:</strong> <span th:text="${admin.correo}">Correo</span><br>
+                                    <strong>Teléfono:</strong> <span th:text="${admin.telefono}">Teléfono</span><br>
+                                    <strong>Fecha de registro:</strong> <span th:text="${admin.fecha_registro}">Fecha</span><br>
+                                    <strong>Tipo:</strong> <span th:text="${admin.tipo_usuario == 1} ? 'Administrador'">Tipo</span>
+                                </p>
+                                <div class="button-container">
+                                    <a th:href="@{/admin/editar/{id}(id=${admin.id_usuario})}" class="btn btn-warning btn-custom-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form th:action="@{/admin/eliminar/{id}(id=${admin.id_usuario})}" method="post" style="display:inline;">
+                                        <button type="submit" class="btn btn-danger btn-custom-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este administrador?');">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/scripts.js"></script>
+    <script>
+        document.getElementById('toggle-password').addEventListener('click', function() {
+            var passwordField = document.getElementById('contrasena');
+            var icon = this.querySelector('i');
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+    </script>
+</body>
+</html>

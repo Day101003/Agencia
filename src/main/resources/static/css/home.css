@@ -1,0 +1,126 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to right, #cf9925c4, #ffffff);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .password-wrapper {
+    position: relative;
+  }
+  
+  .toggle-password {
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+
+  .main-wrapper {
+    width: 100%;
+    max-width: 420px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 90vh;
+  }
+
+  header {
+    background-color: #e4ae1a;
+    color: #fff;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .login-section {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .login-section h2 {
+    margin-bottom: 1.5rem;
+    color: #333;
+    text-align: center;
+  }
+
+  .login-section form {
+    margin-bottom: 1.5rem;
+  }
+
+  .login-section label {
+    display: block;
+    margin-top: 1rem;
+    font-weight: 500;
+    color: #333;
+  }
+
+  .login-section input {
+    width: 100%;
+    padding: 0.6rem;
+    margin-top: 0.4rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.95rem;
+  }
+
+  .login-section button {
+    margin-top: 1.5rem;
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #e4c14f;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .login-section button:hover {
+    background-color: rgb(218, 171, 3);
+  }
+
+  .google-login {
+    margin: 1.5rem 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  .register-text {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .register-text a {
+    color: #d8bf4e;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  .register-text a:hover {
+    text-decoration: underline;
+  }
+
+  footer {
+    text-align: center;
+    background: #f0f0f0;
+    padding: 1rem;
+    font-size: 0.85rem;
+  }

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Inicio - JDNK</title>
+
+  <!-- evitar errores de COOP -->
+  <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
+  <meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
+
+  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SDK de Google Identity Services -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+  <div class="main-wrapper">
+    <header>
+      <h1>Bienvenido a JDNK</h1>
+    </header>
+
+    <section class="login-section">
+      <h2>Iniciar Sesión</h2>
+
+      <!-- Formulario tradicional -->
+      <form action="/login" method="post">
+        <label for="correo">Correo:</label>
+        <input type="email" id="correo" name="correo" required>
+        
+        <label for="contrasena">Contraseña:</label>
+        <div class="password-wrapper">
+          <input type="password" id="contrasena" name="contrasena" required>
+          <span class="toggle-password" onclick="togglePassword()">
+            <i class="fas fa-eye" id="eye-icon"></i>
+          </span>
+        </div>
+        
+        <button type="submit">Iniciar Sesión</button>
+      </form>
+
+      <!-- Botón de Google Sign-In -->
+      <div class="google-login">
+        <div id="g_id_onload"
+            data-client_id="776550020046-il2iksl0bbtsffb438j59jd8g6nvlmt8.apps.googleusercontent.com"
+            data-callback="handleCredentialResponse"
+            data-auto_prompt="false">
+        </div>
+
+        <div class="g_id_signin"
+            data-type="standard"
+            data-size="large"
+            data-theme="outline"
+            data-text="sign_in_with"
+            data-shape="rectangular"
+            data-logo_alignment="left">
+        </div>
+      </div>
+
+      <p class="register-text">¿No tienes cuenta? <a href="/register">Regístrate aquí</a></p>
+    </section>
+
+    <footer>
+      <p>© 2025 JDNK - JUST DRIVE, NO KEYS</p>
+    </footer>
+  </div>
+
+  <script>
+    async function handleCredentialResponse(response) {
+      console.log("🔐 Token recibido de Google:", response.credential);
+
+      try {
+        const res = await fetch('/api/auth/google', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ credential: response.credential })
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          console.log("✅ Login exitoso con Google, redirigiendo a", data.redirectUrl);
+          window.location.href = data.redirectUrl;
+        } else {
+          const errorText = await res.text();
+          console.error("❌ Error al loguear con Google:", errorText);
+          alert("Error al iniciar sesión con Google");
+        }
+      } catch (err) {
+        console.error("🔥 Excepción al intentar login con Google:", err);
+        alert("Error inesperado. Revisa la consola.");
+      }
+    }
+
+    function togglePassword() {
+      const passwordInput = document.getElementById('contrasena');
+      const eyeIcon = document.getElementById('eye-icon');
+      const passwordType = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+
+      passwordInput.setAttribute('type', passwordType);
+      eyeIcon.classList.toggle('fa-eye');
+      eyeIcon.classList.toggle('fa-eye-slash');
+    }
+  </script>
+</body>
+</html>

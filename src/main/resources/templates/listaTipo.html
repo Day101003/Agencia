@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tipos</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+    <link href="css/lista.css" rel="stylesheet" />
+
+    <style>
+        .navbar-custom {
+            background-color: rgb(255, 198, 10); /* Color oscuro */
+        }
+        .btn-custom {
+            margin-right: 5px;
+        }
+        .table th, .table td {
+            vertical-align: middle; /* Centra el contenido verticalmente */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+        <a class="navbar-brand" style="color: rgb(0, 0, 0);" href="#">Lista Tipos</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" style="color: rgb(0, 0, 0); font-size: 20px;" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Listas
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/marcas/marca">Lista Marca</a>
+                        <a class="dropdown-item" href="/modelos/modelo">Lista Modelo</a>
+                        <a class="dropdown-item" href="/tipos/tipo">Lista Tipo</a>
+                        <a class="dropdown-item" href="/imagenes/imagen">Lista Imágenes</a>
+                    </div>
+                </li>
+            </ul>
+            <a href="/controller_carro/opciones" class="btn btn-warning text-dark fw-bold mr-3">Volver</a>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h2>Lista de Tipos</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="tipo : ${listaTipo}">
+                    <td th:text="${tipo.id_tipo}">Id</td>
+                    <td th:text="${tipo.nombre}">Nombre</td> 
+                    <td>
+                        <a th:href="@{/tipos/editar/{id}(id=${tipo.id_tipo})}" class="btn btn-warning btn-custom">
+                            <i class="fas fa-edit"></i> 
+                        </a>
+                        
+                        
+                        <form th:action="@{/tipos/eliminar/{id}(id=${tipo.id_tipo})}" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este tipo?');">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

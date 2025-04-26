@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Carros</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+    <link href="/css/lista.css" rel="stylesheet" />
+
+   
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom fixed-top">
+        <a class="navbar-brand" href="/">Lista De Carros</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto"></ul>
+            <a href="/controller_carro/gestionar" class="btn btn-warning text-dark fw-bold">Volver</a>
+        </div>
+    </nav>
+
+    <div class="container mt-5 pt-5">
+        <div class="card-header">
+            <h2>Lista de Carros</h2>
+        </div>
+        <div class="card-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 mb-4" th:each="carro : ${carros}">
+                        <div class="card h-100 shadow-sm">
+
+                            <div class="position-relative" style="height: 200px;">
+                                <img th:src="@{'/' + ${carro.imagenCarros != null ? carro.imagenCarros.ruta_imagen : '/path/to/default/image.jpg'}}" 
+                                     class="card-img-top" alt="Imagen del carro" style="height: 100%; object-fit: cover;" />
+
+                                <div class="btn-overlay">
+                                    <a th:href="@{/controller_carro/editar/{id}(id=${carro.id_carro})}" class="btn btn-warning btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form th:action="@{/controller_carro/eliminar/{id}(id=${carro.id_carro})}" method="post" style="display:inline">
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar este carro?')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                    <form th:action="@{/controller_carro/cambiarEstado/{id}(id=${carro.id_carro})}" method="post" style="display:inline">
+                                        <button type="submit" class="btn btn-info btn-sm" onclick="return confirm('¿Cambiar estado de este carro?')">
+                                            <i class="fas fa-toggle-on"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="p-2 bg-light border border-dark rounded text-center mb-2 shadow-sm">
+                                    <h5 class="mb-0 font-weight-bold text-uppercase text-dark"
+                                        th:text="${carro.marca?.nombre_marca + ' ' + carro.modelo?.nombre_modelo}"></h5>
+                                </div>
+                                
+                                
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p><strong>Precio:</strong> ₡<span th:text="${carro.precio_carro}"></span></p>
+                                        <p><strong>Color:</strong> <span th:text="${carro.color_carro}"></span></p>
+                                        <p><strong>Estado:</strong> <span th:text="${carro.estado == 1 ? 'Activo' : 'Inactivo'}"></span></p>
+                                        <p><strong>Año:</strong> <span th:text="${carro.ano}"></span></p>
+                                        <p><strong>Combustible:</strong> <span th:text="${carro.combustible}"></span></p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p><strong>Puertas:</strong> <span th:text="${carro.numero_puertas}"></span></p>
+                                        <p><strong>Kilometraje:</strong> <span th:text="${carro.kilometraje} + ' km'"></span></p>
+                                        <p><strong>Transmisión:</strong> <span th:text="${carro.transmision}"></span></p>
+                                        <p><strong>Placa:</strong> <span th:text="${carro.numero_placa}"></span></p>
+                                        <p><strong>VIN:</strong> <span th:text="${carro.numero_vin}"></span></p>
+                                    </div>
+                                </div>
+
+                                <p class="mt-2"><strong>Disponibilidad:</strong> 
+                                    <span th:text="${carro.disponibilidad ? 'Disponible' : 'No Disponible'}"></span>
+                                </p>
+                                <p><strong>Observaciones:</strong> <span th:text="${carro.observaciones}"></span></p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

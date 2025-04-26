@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Agency</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Bootstrap CSS -->
+    <!-- Bootstrap 5.3.0 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap 5.3.0 Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/css/styles.css" rel="stylesheet" />
+
+</head>
+
+<body id="page-top">
+
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="assets/img/logo.png" alt="Logo JDNK" style="height: 89px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto text-uppercase">
+                    <li class="nav-item"><a class="nav-link" href="#services">Modelos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#portfolio">Carros</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contacto</a></li>
+                </ul>
+
+                <!-- Botón Ingresar -->
+                <button id="loginButton" class="btn btn-outline-primary ms-2 fw-semibold"
+                    onclick="window.location.href='/home'">
+                    Ingresar
+                </button>
+
+                <!-- Perfil de Usuario (visible solo si hay sesión) -->
+                <div id="userProfile" class="dropdown d-none">
+                    <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="userDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <img id="userAvatar" src="" alt="Perfil" width="30" height="30" class="rounded-circle me-2">
+                        <span id="userName" class="fw-semibold text-dark"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end text-small shadow" aria-labelledby="userDropdown">
+                        <li>
+                            <h6 class="dropdown-header" id="userEmail"></h6>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item text-danger" href="#" onclick="logout()">Cerrar sesión</a></li>
+                    </ul>
+                </div>
+
+                <!-- Botón de administrador -->
+                <button class="btn btn-warning ms-2 fw-bold text-dark" onclick="window.location.href='/admin'">
+                    Administradores
+                </button>
+
+                <!-- Icono del carrito -->
+                <a href="#" class="btn btn-dark btn-social mx-2" data-bs-toggle="modal" data-bs-target="#cartModal">
+                    <i class="fas fa-shopping-cart"></i>
+                </a>
+                
+
+                <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+                <a href="https://wa.me/50684481408?text=Hola%2C%20quiero%20más%20información" target="_blank">
+                    <i class="fab fa-whatsapp" style="font-size: 40px; color: green;"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+
+
+</body>
+
+<!-- Masthead-->
+<header class="masthead">
+    <div class="container">
+        <div class="masthead-subheading" style="color: rgb(255, 198, 10);">Agencia JDNK</div>
+        <div class="masthead-heading text-uppercase" style="color: rgb(255, 198, 10);">BIENVENIDOS</div>
+        <a class="btn btn-primary btn-xl text-uppercase" href="#services">Más información</a>
+    </div>
+</header>
+
+<!-- Servicios (Marcas Carousel) -->
+<section class="page-section bg-light" id="services">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase">Nuestras Marcas</h2>
+            <h3 class="section-subheading text-muted">Explora las marcas que ofrecemos</h3>
+        </div>
+        <div th:if="${marcas != null and not #lists.isEmpty(marcas)}">
+            <div id="marcasCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div th:each="marca, iterStat : ${marcas}" th:if="${iterStat.index % 4 == 0}" class="carousel-item"
+                        th:classappend="${iterStat.first} ? 'active' : ''">
+                        <div class="row justify-content-center">
+                            <div th:each="innerIndex : ${#numbers.sequence(iterStat.index, iterStat.index + 2)}"
+                                th:if="${innerIndex < marcas.size()}" class="col-6 col-md-3 mb-4 px-2">
+                                <a th:href="@{/marcasTipos(id_marca=${marcas[innerIndex].id_marca})}"
+                                    class="card text-center text-decoration-none"
+                                    style="border: 2px solid #f1c40f; border-radius: 15px; background: linear-gradient(135deg, #ffffff, #f8f9fa); padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.3s;">
+                                    <h5 class="card-title"
+                                        th:text="${marcas[innerIndex].nombre_marca != null ? marcas[innerIndex].nombre_marca : 'Sin Nombre'}"
+                                        style="font-size: 1.8rem; color: #2c3e50; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin: 0;">
+                                    </h5>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#marcasCarousel"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#marcasCarousel"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+        <div th:if="${marcas == null or #lists.isEmpty(marcas)}" class="text-center text-muted">
+            <p>No se encontraron marcas disponibles.</p>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Portfolio Carousel Carros-->
+<section class="page-section bg-light" id="portfolio">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase">Algunos De Nuestros Vehículos</h2>
+            <h3 class="section-subheading text-muted">Descubre nuestra amplia selección de carros</h3>
+        </div>
+        <div id="portfolioCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div th:each="carro, iterStat : ${carros}" th:if="${iterStat.index % 2 == 0}" class="carousel-item"
+                    th:classappend="${iterStat.first} ? 'active' : ''">
+                    <div class="row justify-content-center">
+
+                        <div class="col-6 col-md-5 px-2">
+                            <div class="card" style="width: 26rem;">
+                                <a class="portfolio-link" data-bs-toggle="modal"
+                                    th:attr="data-bs-target='#portfolioModal' + ${carro.id_carro}">
+                                    <img th:src="@{'/' + ${carro.imagenCarros != null ? carro.imagenCarros.ruta_imagen : 'assets/img/default-car.jpg'}}"
+                                        class="card-img-top" alt="Imagen del vehículo"
+                                        style="height: 250px; object-fit: cover;">
+                                </a>
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">
+                                        <span
+                                            th:text="${carro.marca != null ? carro.marca.nombre_marca : 'Marca'}"></span>
+                                        <span
+                                            th:text="${carro.modelo != null ? carro.modelo.nombre_modelo : 'Modelo'}"></span>
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div th:if="${iterStat.index + 1 < carros.size()}" class="col-6 col-md-5 px-2">
+                            <div class="card" style="width: 26rem;">
+                                <a class="portfolio-link" data-bs-toggle="modal"
+                                    th:attr="data-bs-target='#portfolioModal' + ${carros[iterStat.index + 1].id_carro}">
+                                    <img th:src="@{'/' + ${carros[iterStat.index + 1].imagenCarros != null ? carros[iterStat.index + 1].imagenCarros.ruta_imagen : 'assets/img/default-car.jpg'}}"
+                                        class="card-img-top" alt="Imagen del vehículo"
+                                        style="height: 250px; object-fit: cover;">
+                                </a>
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">
+                                        <span
+                                            th:text="${carros[iterStat.index + 1].marca != null ? carros[iterStat.index + 1].marca.nombre_marca : 'Marca'}"></span>
+                                        <span
+                                            th:text="${carros[iterStat.index + 1].modelo != null ? carros[iterStat.index + 1].modelo.nombre_modelo : 'Modelo'}"></span>
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Controles del carrusel -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#portfolioCarousel"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"
+                    style="background-image: url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27 fill=%27%23000%27%3E%3Cpath d=%27M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z%27/%3E%3C/svg%3E');"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#portfolioCarousel"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"
+                    style="background-image: url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27 fill=%27%23000%27%3E%3Cpath d=%27M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z%27/%3E%3C/svg%3E');"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+</section>
+
+
+<!-- Portfolio Modals -->
+<div th:each="carro : ${carros}" class="portfolio-modal modal fade" th:id="'portfolioModal' + ${carro.id_carro}"
+    tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content"
+            style="border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+            <div class="close-modal" data-bs-dismiss="modal"
+                style="position: absolute; right: 20px; top: 20px; cursor: pointer;">
+                <img src="assets/img/close-icon.svg" alt="Close modal" style="width: 24px; height: 24px;" />
+            </div>
+            <div class="container py-5">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="modal-body text-center">
+                            <h2 class="text-uppercase mb-3"
+                                th:text="${carro.marca.nombre_marca} + ' ' + ${carro.modelo.nombre_modelo}"
+                                style="font-weight: 700; color: #2c3e50; letter-spacing: 1px;">
+                            </h2>
+                            <p class="item-intro text-muted mb-4" style="font-style: italic;">Perfecto para ti</p>
+
+                            <div class="image-container mb-4"
+                                style="max-height: 400px; overflow: hidden; border-radius: 10px;">
+                                <img th:src="@{'/' + ${carro.imagenCarros != null ? carro.imagenCarros.ruta_imagen : 'assets/img/default-car.jpg'}}"
+                                    class="img-fluid" alt="Car Image"
+                                    style="width: 100%; object-fit: cover; transition: transform 0.3s ease;"
+                                    onmouseover="this.style.transform='scale(1.05)'"
+                                    onmouseout="this.style.transform='scale(1)'">
+                            </div>
+
+                            <div class="car-details p-4" style="background: #f8f9fa; border-radius: 10px;">
+                                <div class="row text-left">
+                                    <div class="col-md-6 mb-3">
+                                        <p class="mb-2"><strong>Año:</strong> <span th:text="${carro.ano}"></span></p>
+                                        <p class="mb-2"><strong>Color:</strong> <span
+                                                th:text="${carro.color_carro}"></span></p>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <p class="mb-2"><strong>Precio:</strong> $<span
+                                                th:text="${#numbers.formatDecimal(carro.precio_carro, 1, 2, 'COMMA')}"></span>
+                                        </p>
+                                        <p class="mb-2"><strong>Placa:</strong> <span
+                                                th:text="${carro.numero_placa}"></span></p>
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <p class="mb-2" style="text-align: center;">
+                                            <strong>Observaciones:</strong>
+                                            <span th:text="${carro.observaciones}"
+                                                style="display: inline-block; max-width: 100%; word-break: break-word; overflow-wrap: break-word; text-align: justify;">
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="mb-0">
+                                <strong>Estado:</strong>
+                                <span th:class="${carro.disponibilidad} ? 'text-success' : 'text-danger'"
+                                    th:text="${carro.disponibilidad} ? 'Disponible' : 'Vendido'"
+                                    style="font-weight: 600;">
+                                </span>
+                            </p>
+                        </div>
+
+                        <div class="mt-5">
+                            <button class="btn btn-warning btn-lg btn-agregar-carrito me-2"
+                                th:disabled="${!carro.disponibilidad}" th:attr="data-id-carro=${carro.id_carro}"
+                                style="border-radius: 25px; padding: 12px 30px; transition: all 0.3s ease; background: #f1c40f; border: none;"
+                                onmouseover="this.style.background='#e67e22';"
+                                onmouseout="this.style.background='#f1c40f';">
+                                <i class="fas fa-cart-plus me-2"></i> Agregar al Carrito
+                            </button>
+                            <button class="btn btn-primary btn-lg text-uppercase" data-bs-dismiss="modal" type="button"
+                                style="border-radius: 25px; padding: 12px 30px; transition: all 0.3s ease; background: #10212c; border: none;"
+                                onmouseover="this.style.background='#10212c';"
+                                onmouseout="this.style.background=' #133953';">
+                                <i class="fas fa-xmark me-2"></i> Cerrar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<!-- Cart Modal -->
+<div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cartModalLabel">Mi Carrito</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="cartContent">
+                    <p>Cargando carrito...</p>
+                </div>
+                <div class="text-end mt-3">
+                    <h5>Total: $<span id="cartTotal">0</span></h5>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="payButton" disabled>Pagar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</section>
+
+<!-- Clients-->
+<div class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-3 col-sm-6 my-3">
+                <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/marca5.jpg"
+                        alt="..." aria-label="Microsoft Logo" /></a>
+            </div>
+            <div class="col-md-3 col-sm-6 my-3">
+                <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/marca1.jpg"
+                        alt="..." aria-label="Google Logo" /></a>
+            </div>
+            <div class="col-md-3 col-sm-6 my-3">
+                <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/bmw2.jpg"
+                        alt="..." aria-label="Facebook Logo" /></a>
+            </div>
+            <div class="col-md-3 col-sm-6 my-3">
+                <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/marca3.jpg" alt="..."
+                        aria-label="IBM Logo" /></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Contact -->
+<section class="page-section" id="contact">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase">Contáctanos</h2>
+            <h3 class="section-subheading text-white">Será un placer atenderlos</h3>
+        </div>
+
+        <form id="contactForm" data-sb-form-api-token="b8371e5b-7710-4cab-b6d5-e4c1d4edb9a1">
+            <div class="row align-items-stretch mb-5">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input class="form-control" id="name" type="text" placeholder="Nombre completo"
+                            data-sb-validations="required" />
+                        <div class="invalid-feedback" data-sb-feedback="name:required">Un nombre válido es requerido.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" id="email" type="email" placeholder="Correo electrónico"
+                            data-sb-validations="required,email" />
+                        <div class="invalid-feedback" data-sb-feedback="email:required">El correo es obligatorio.</div>
+                        <div class="invalid-feedback" data-sb-feedback="email:email">El correo no es válido.</div>
+                    </div>
+                    <div class="form-group mb-md-0">
+                        <input class="form-control" id="phone" type="tel" placeholder="Número de teléfono"
+                            data-sb-validations="required" />
+                        <div class="invalid-feedback" data-sb-feedback="phone:required">El número es obligatorio.</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group form-group-textarea mb-md-0">
+                        <textarea class="form-control" id="message" placeholder="Tu mensaje"
+                            data-sb-validations="required"></textarea>
+                        <div class="invalid-feedback" data-sb-feedback="message:required">El mensaje es obligatorio.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mensaje de éxito -->
+            <div class="d-none" id="submitSuccessMessage">
+                <div class="text-center text-white mb-3">
+                    <div class="fw-bolder">¡Mensaje enviado correctamente!</div>
+                    Pronto nos pondremos en contacto contigo.
+                </div>
+            </div>
+
+            <!-- Mensaje de error -->
+            <div class="d-none" id="submitErrorMessage">
+                <div class="text-center text-danger mb-3">¡Error al enviar el mensaje!</div>
+            </div>
+
+            <!-- Botón de enviar -->
+            <div class="text-center">
+                <button class="btn btn-primary btn-xl text-uppercase" id="submitButton" type="submit">
+                    Enviar mensaje
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- Footer-->
+<footer class="footer py-4">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-4 text-lg-start">Copyright &copy; JDNK 2025</div>
+            <div class="col-lg-4 my-3 my-lg-0">
+                <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Twitter"><i
+                        class="fab fa-twitter"></i></a>
+                <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Facebook"><i
+                        class="fab fa-facebook-f"></i></a>
+                <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="LinkedIn"><i
+                        class="fab fa-linkedin-in"></i></a>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <a class="link-dark text-decoration-none me-3" href="#!">Privacy Policy</a>
+                <a class="link-dark text-decoration-none" href="#!">Terms of Use</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Función para obtener el token JWT de la cookie
+    function getJwtToken() {
+        const cookieValue = document.cookie.split('; ').find(row => row.startsWith('JWT_TOKEN='));
+        return cookieValue ? cookieValue.split('=')[1] : null;
+    }
+
+    // Load cart data when the cart modal is shown
+    document.getElementById('cartModal').addEventListener('show.bs.modal', async () => {
+        const cartContent = document.getElementById('cartContent');
+        const cartTotal = document.getElementById('cartTotal');
+        const payButton = document.getElementById('payButton');
+        const token = getJwtToken();
+
+        if (!token) {
+            window.location.href = '/home';
+            return;
+        }
+
+        try {
+            const response = await fetch('/cart/view', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (response.ok) {
+                const order = await response.json();
+                if (!order || order.detalles.length === 0) {
+                    cartContent.innerHTML = '<p>Tu carrito está vacío.</p>';
+                    cartTotal.textContent = '0';
+                    payButton.disabled = true;
+                } else {
+                    let html = '<ul class="list-group">';
+                    order.detalles.forEach(detalle => {
+                        const carro = detalle.carro;
+                        html += `
+                            <li class="list-group-item">
+                                ${carro.marca.nombreMarca} ${carro.modelo.nombreModelo} (${carro.ano}) - 
+                                Precio: $${carro.precioCarro.toFixed(2)}
+                            </li>
+                        `;
+                    });
+                    html += '</ul>';
+                    cartContent.innerHTML = html;
+                    cartTotal.textContent = order.precio.toFixed(2);
+                    payButton.disabled = false;
+                }
+            } else if (response.status === 401 || response.status === 403) {
+                window.location.href = '/home';
+            } else {
+                cartContent.innerHTML = '<p>Error al cargar el carrito.</p>';
+                cartTotal.textContent = '0';
+                payButton.disabled = true;
+            }
+        } catch (error) {
+            console.error('Error al cargar el carrito:', error);
+            cartContent.innerHTML = '<p>Error al cargar el carrito.</p>';
+            cartTotal.textContent = '0';
+            payButton.disabled = true;
+        }
+    });
+
+    // Handle "Pay" button click
+    document.getElementById('payButton').addEventListener('click', async () => {
+        const token = getJwtToken();
+
+        if (!token) {
+            window.location.href = '/home';
+            return;
+        }
+
+        try {
+            const response = await fetch('/cart/checkout', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (response.ok) {
+                alert('Compra finalizada exitosamente');
+                const cartModal = document.getElementById('cartModal');
+                const bootstrapModal = bootstrap.Modal.getInstance(cartModal);
+                bootstrapModal.hide();
+                setTimeout(() => {
+                    bootstrapModal.show();
+                }, 500);
+            } else if (response.status === 401 || response.status === 403) {
+                window.location.href = '/home';
+            } else {
+                alert('Error al procesar el pago');
+            }
+        } catch (error) {
+            console.error('Error al procesar el pago:', error);
+            alert('Error al procesar el pago');
+        }
+    });
+
+    // Existing user profile and logout code
+    window.addEventListener('DOMContentLoaded', async () => {
+        const cookieValue = document.cookie.split('; ').find(row => row.startsWith('JWT_TOKEN='));
+        const token = cookieValue ? cookieValue.split('=')[1] : null;
+
+        const loginButton = document.getElementById('loginButton');
+        const userProfile = document.getElementById('userProfile');
+        const userAvatar = document.getElementById('userAvatar');
+        const userName = document.getElementById('userName');
+        const userEmail = document.getElementById('userEmail');
+
+        if (token) {
+            try {
+                const res = await fetch('/api/user/profile', {
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                });
+
+                if (res.ok) {
+                    const user = await res.json();
+                    userName.textContent = user.nombre || "Usuario";
+                    userAvatar.src = user.ruta_imagen_usuario || "/assets/img/FotoPerfil/default.png";
+                    userEmail.textContent = user.correo || "Correo no disponible";
+
+                    loginButton.classList.add('d-none');
+                    userProfile.classList.remove('d-none');
+                } else {
+                    console.warn("⚠ Token no válido o expirado");
+                }
+            } catch (err) {
+                console.error("❌ Error al cargar perfil:", err);
+            }
+        } else {
+            console.warn("⚠ JWT_TOKEN no encontrado en cookies.");
+        }
+    });
+
+    function logout() {
+        document.cookie = 'JWT_TOKEN=; Max-Age=0; path=/; SameSite=Strict';
+        window.location.href = '/home';
+    }
+</script>
+
+<script src="/js/carrito.js"></script>
+<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+<script src="/js/scripts.js"></script>
+
+</body>
+
+</html>

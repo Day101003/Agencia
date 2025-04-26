@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Usuario</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/admin.css" rel="stylesheet" />
+    <style>
+        .navbar-custom {
+            background-color: rgb(255, 198, 10);
+        }
+        .input-group-append {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+        <a class="navbar-brand" style="color: rgb(0, 0, 0);" href="#">Editar Usuario</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto"></ul>
+            <a href="/admin" class="btn btn-warning text-dark fw-bold mr-3">Volver</a>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                <h2>Editar Usuario</h2>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/admin/actualizar/{id}(id=${usuario.id_usuario})}" th:method="post"
+                    class="form-container" enctype="multipart/form-data">
+                    <input type="hidden" name="id_usuario" th:value="${usuario.id_usuario}">
+                    <div class="form-group">
+                        <label for="usuario-nombre">Nombre</label>
+                        <input type="text" name="nombre" class="form-control" id="usuario-nombre"
+                            th:value="${usuario.nombre}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="usuario-correo">Correo</label>
+                        <input type="email" name="correo" class="form-control" id="usuario-correo"
+                            th:value="${usuario.correo}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="usuario-telefono">Teléfono</label>
+                        <input type="text" name="telefono" class="form-control" id="usuario-telefono"
+                            th:value="${usuario.telefono}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="usuario-fecha-registro">Fecha de Registro</label>
+                        <input type="date" name="fechaRegistro" class="form-control" id="usuario-fecha-registro"
+                            th:value="${usuario.fecha_registro}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="usuario-contrasena">Contraseña</label>
+                        <div class="input-group">
+                            <input type="password" name="contrasena" class="form-control" id="usuario-contrasena"
+                                th:value="${usuario.contrasena}" required>
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="togglePassword">
+                                    <i class="fas fa-eye"></i> <!-- Icono de ojo -->
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="usuario-tipo">Tipo de Usuario</label>
+                        <select name="tipoUsuario" class="form-control" id="usuario-tipo" required>
+                            <option value="1" th:selected="${usuario.tipo_usuario == 1}">Usuario</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="ruta_imagen_usuario">Imagen</label>
+                        <input type="file" name="ruta_imagen_usuario" class="form-control" id="ruta_imagen_usuario">
+                    </div>
+                    <button type="submit" class="btn btn-warning">Guardar Cambios</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function (e) {
+            const passwordField = document.getElementById('usuario-contrasena');
+            const type = passwordField.type === 'password' ? 'text' : 'password';
+            passwordField.type = type;
+
+            const eyeIcon = this.querySelector('i');
+            if (type === 'password') {
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            } else {
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            }
+        });
+    </script>
+</body>
+
+</html>

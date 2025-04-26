@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro - JDNK</title>
+    <link rel="stylesheet" href="/css/register.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="register-container">
+        <h1>Crear Cuenta</h1>
+
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="nombre">Nombre completo</label>
+                <input type="text" id="nombre" name="nombre" required>
+            </div>
+
+            <div class="form-group">
+                <label for="correo">Correo electrónico</label>
+                <input type="email" id="correo" name="correo" required>
+            </div>
+
+            <div class="form-group">
+                <label for="contrasena">Contraseña</label>
+                <div class="password-wrapper">
+                    <input type="password" id="contrasena" name="contrasena" required>
+                    <span class="toggle-password" onclick="togglePassword()">
+                        <i class="fas fa-eye" id="eye-icon"></i>
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="telefono">Número de teléfono</label>
+                <input type="text" id="telefono" name="telefono" required>
+            </div>
+
+            <button type="submit" class="register-btn">Registrarse</button>
+        </form>
+
+        <p class="redirect-login">¿Ya tienes una cuenta? <a href="/home">Inicia sesión aquí</a></p>
+    </div>
+
+    <script>
+      document.getElementById('registerForm').addEventListener('submit', async e => {
+        e.preventDefault();
+        const dto = {
+          nombre: e.target.nombre.value,
+          correo: e.target.correo.value,
+          contrasena: e.target.contrasena.value,
+          telefono: e.target.telefono.value
+        };
+
+        const resp = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(dto)
+        });
+
+        if (!resp.ok) {
+          const err = await resp.text();
+          return alert('Error al registrar: ' + err);
+        }
+
+        const { token } = await resp.json();
+        document.cookie = `token=${token}; path=/`;
+        window.location.href = '/index';
+      });
+
+      function togglePassword() {
+        const passwordInput = document.getElementById('contrasena');
+        const eyeIcon = document.getElementById('eye-icon');
+        const passwordType = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+
+        passwordInput.setAttribute('type', passwordType);
+        eyeIcon.classList.toggle('fa-eye');
+        eyeIcon.classList.toggle('fa-eye-slash');
+      }
+    </script>
+</body>
+</html>
