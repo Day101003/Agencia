@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.agencia.agencia.service.CarrosServiceLong;
 import com.agencia.agencia.model.Carro;
 import com.agencia.agencia.model.ImagenCarros;
 import com.agencia.agencia.model.Marca;
@@ -20,18 +21,27 @@ import com.agencia.agencia.service.ImagenCarrosService;
 import com.agencia.agencia.service.MarcaService;
 import com.agencia.agencia.service.ModeloService;
 import com.agencia.agencia.service.TipoService; 
+
 @Controller
 @RequestMapping("/controller_carro")
 public class CarroController {
 
     private final CarrosService carrosService;
-    private final TipoService tipoService; 
+    private final CarrosServiceLong carrosServiceLong;  // Usar el servicio con long
+    private final TipoService tipoService;
     private final MarcaService marcaService;
     private final ModeloService modeloService;
     private final ImagenCarrosService imagenCarrosService;
 
-    public CarroController(CarrosService carrosService, TipoService tipoService, MarcaService marcaService, ModeloService modeloService, ImagenCarrosService imagenCarrosService) {
+    // Inyección de dependencias a través del constructor
+    public CarroController(CarrosService carrosService, 
+                           CarrosServiceLong carrosServiceLong,  
+                           TipoService tipoService, 
+                           MarcaService marcaService, 
+                           ModeloService modeloService, 
+                           ImagenCarrosService imagenCarrosService) {
         this.carrosService = carrosService;
+        this.carrosServiceLong = carrosServiceLong; 
         this.tipoService = tipoService;
         this.marcaService = marcaService;
         this.modeloService = modeloService;
@@ -108,6 +118,16 @@ public String cambiarEstado(@PathVariable int id) {
     return "redirect:/controller_carro/listaCar";
 }
 
+  // Ruta para ver el detalle del carro
+  @GetMapping("/{id}")
+  public String verCarro(@PathVariable long id, Model model) {
+      Carro carro = carrosServiceLong.consultar(id);  // Usar el nuevo servicio con long
+      if (carro != null) {
+          model.addAttribute("carro", carro);
+          return "carroDetalle";  // Asegúrate de que esta vista exista
+      }
+      return "404";  // Página no encontrada
+  }
     
 
 }

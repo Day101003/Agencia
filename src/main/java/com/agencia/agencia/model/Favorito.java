@@ -1,36 +1,30 @@
 package com.agencia.agencia.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "favoritos")
 public class Favorito {
-   @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+   
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name= "id_favorito", nullable= false)
     private long id_favorito;
 
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "carros", nullable = true)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "modelo", "marca", "tipo", "imagenCarros"})
     private Carro carro;
 
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "usuarios", nullable = true)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "favoritos"})
     private Usuario usuario;
 
-    public Favorito() {
-    }
+    public Favorito() {}
 
     public Favorito(Carro carro, Usuario usuario) {
-       
         this.carro = carro;
         this.usuario = usuario;
     }
@@ -58,7 +52,4 @@ public class Favorito {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-
-    
-
 }

@@ -7,6 +7,8 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.security.core.Authentication;
+
 
 public interface UsuarioService extends UserDetailsService {
     Usuario registrarUsuario(Usuario u);
@@ -18,4 +20,5 @@ public interface UsuarioService extends UserDetailsService {
     Usuario add(Usuario u);
     Usuario actualizarUsuario(Usuario u);
     void eliminar(int id);
+    Usuario obtenerUsuarioDesdeAutenticacion(Authentication authentication);
 }

@@ -47,6 +47,7 @@ public class SecurityConfig {
             .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authenticationProvider(authProvider)
             .authorizeHttpRequests(auth -> auth
+            .requestMatchers("/favoritos/**").authenticated() // Agregar ruta de favoritos
                 .requestMatchers("/cart/**").authenticated()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/home", "/login", "/register", "/index", "/", "/css/**", "/js/**", "/assets/**").permitAll()
