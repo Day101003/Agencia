@@ -82,40 +82,44 @@ public class FavoritoController {
 
     // ✅ Listar favoritos para el modal
     @GetMapping
-@ResponseBody
-public ResponseEntity<?> listarFavoritos(Principal principal) {
-    try {
-        if (principal == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario no autenticado.");
+    @ResponseBody
+    public ResponseEntity<?> listarFavoritos(Principal principal) {
+        try {
+            if (principal == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario no autenticado.");
+            }
+    
+            Optional<Usuario> usuarioOpt = usuarioService.findByCorreo(principal.getName());
+    
+            if (usuarioOpt.isPresent()) {
+                Usuario usuario = usuarioOpt.get();
+                List<Favorito> favoritos = favoritoService.listarFavoritos(usuario);
+    
+                // Convertimos cada Favorito a FavoritoDTO
+                List<FavoritoDTO> favoritoDTOs = favoritos.stream().map(fav -> {
+                    var carro = fav.getCarro();
+                    String imagenUrl = carro.getImagenCarros() != null 
+                        ? "/" + carro.getImagenCarros().getRuta_imagen() 
+                        : "/assets/img/default-car.jpg"; // Imagen por defecto si no hay
+                    return new FavoritoDTO(
+                        carro.getId_carro(),
+                        carro.getMarca() != null ? carro.getMarca().getNombre_marca() : "Marca desconocida",
+                        carro.getModelo() != null ? carro.getModelo().getNombre_modelo() : "Modelo desconocido",
+                        carro.getAno(),
+                        carro.getPrecio_carro(),
+                        imagenUrl
+                    );
+                }).toList();
+    
+                return ResponseEntity.ok(favoritoDTOs);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado.");
+            }
+    
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error interno: " + ex.getMessage());
         }
-
-        Optional<Usuario> usuarioOpt = usuarioService.findByCorreo(principal.getName());
-
-        if (usuarioOpt.isPresent()) {
-            Usuario usuario = usuarioOpt.get();
-            List<Favorito> favoritos = favoritoService.listarFavoritos(usuario);
-
-            // Convertimos cada Favorito a FavoritoDTO
-            List<FavoritoDTO> favoritoDTOs = favoritos.stream().map(fav -> {
-                var carro = fav.getCarro();
-                return new FavoritoDTO(
-                    carro.getId_carro(),
-                    carro.getMarca() != null ? carro.getMarca().getNombre_marca() : "Marca desconocida",
-                    carro.getModelo() != null ? carro.getModelo().getNombre_modelo() : "Modelo desconocido",
-                    carro.getAno(),
-                    carro.getPrecio_carro()
-                );
-            }).toList();
-
-            return ResponseEntity.ok(favoritoDTOs);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado.");
-        }
-
-    } catch (Exception ex) {
-        ex.printStackTrace();
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Error interno: " + ex.getMessage());
     }
-}
 }

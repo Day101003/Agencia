@@ -79,6 +79,44 @@
   --bs-highlight-bg: #fff4cc;
 }
 
+.favorite-btn {
+  border-radius: 25px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  border: 2px solid #ffffff;
+  background-color: transparent;
+  color: #ffffff;
+}
+
+.favorite-btn:hover {
+  background-color: #642027;
+  color: #811f1f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.favorite-btn i {
+  font-size: 1.2rem;
+  transition: transform 0.2s ease;
+}
+
+.favorite-btn:hover i {
+  transform: scale(1.2);
+}
+
+.favorite-btn.active {
+  background-color: #dc3545;
+  color: #fff;
+  border-color: #dc3545;
+}
+
+.favorite-btn.active i {
+  font-weight: 900; /* Cambia a ícono sólido cuando está activo */
+}
+
 .list-group-item img {
   transition: transform 0.2s;
 }
@@ -126,32 +164,27 @@
   }
 }
 
-.carousel-control-prev-icon,
-    .carousel-control-next-icon {
-        background-color: #2c3e50; /* Fondo oscuro para destacar */
-        background-size: 60% 60%; /* Reducir el tamaño del ícono para un efecto más grueso */
-        border-radius: 50%; /* Hacer las flechas redondeadas */
-        width: 50px; /* Aumentar el tamaño del contenedor */
-        height: 50px; /* Aumentar el tamaño del contenedor */
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Sombra para dar profundidad */
-    }
+.carousel-control-prev,
+.carousel-control-next {
+    z-index: 10; /* Asegúrate de que sea mayor que el de las imágenes */
+    padding: 10px; /* Ajusta el espaciado */
+    background-color: transparent; /* Quita el fondo gris */
+    border: none; /* Quita el borde */
+}
 
-    .carousel-control-prev:hover .carousel-control-prev-icon,
-    .carousel-control-next:hover .carousel-control-next-icon {
-        background-color: #f1c40f; /* Cambiar a amarillo al pasar el mouse */
-        transition: background-color 0.3s ease;
-    }
+.carousel-inner .carousel-item {
+    padding: 0 30px; /* Espacio alrededor de las imágenes */
+}
 
-    .carousel-control-prev,
-    .carousel-control-next {
-        width: 10%; 
-        opacity: 0.8; 
-    }
+.carousel-inner img {
+    max-width: 100%;
+    height: auto;
+}
 
-    .carousel-control-prev:hover,
-    .carousel-control-next:hover {
-        opacity: 1; /* Máxima opacidad al pasar el mouse */
-    }
+
+
+
+
 
 .portfolio-modal .modal-content {
   animation: fadeIn 0.3s ease-in-out;
