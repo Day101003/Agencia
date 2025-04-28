@@ -79,6 +79,16 @@
   --bs-highlight-bg: #fff4cc;
 }
 
+.list-group-item img {
+  transition: transform 0.2s;
+}
+.list-group-item img:hover {
+  transform: scale(1.05);
+}
+.btn-eliminar-carrito {
+  transition: background-color 0.2s;
+}
+
 *,
 *::before,
 *::after {

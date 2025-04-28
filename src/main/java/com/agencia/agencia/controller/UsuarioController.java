@@ -80,7 +80,7 @@ public class UsuarioController {
 
                 usuario.setRuta_imagen_usuario(rutaImagen);
             } else {
-                usuario.setRuta_imagen_usuario("/assets/img/FotoPerfil/default.png"); // Imagen por defecto
+                usuario.setRuta_imagen_usuario("/assets/img/FotoPerfil/usuario2.jpg"); // Imagen por defecto
             }
 
             usuarioService.add(usuario);

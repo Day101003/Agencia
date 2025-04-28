@@ -67,6 +67,24 @@ public class MainController {
         }
     }
 
+
+    @GetMapping("/detalleTotalCarros")
+    public String obtenerDetallesCarros(@RequestParam("id") int idCarro, Model model) {
+        try {
+            Carro carro = carrosService.consultar(idCarro);
+            if (carro == null) {
+                model.addAttribute("error", "El carro no fue encontrado.");
+                return "index";
+            }
+            model.addAttribute("carro", carro);
+            return "detalleTotalCarros";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("error", "Hubo un problema al obtener los detalles del carro.");
+            return "index";
+        }
+    }
+
     
 
     @GetMapping("/totalCarros")

@@ -123,13 +123,18 @@ public class CartController {
     private CarroDTO mapToCarroDTO(Carro carro) {
         CarroDTO carroDTO = new CarroDTO();
         carroDTO.setIdCarro(carro.getId_carro());
-        carroDTO.setPrecioCarro(carro.getPrecio_carro()); // Mapeamos a precioCarro para el frontend
+        carroDTO.setPrecioCarro(carro.getPrecio_carro());
         carroDTO.setAno(carro.getAno());
         if (carro.getModelo() != null) {
             carroDTO.setModelo(mapToModeloDTO(carro.getModelo()));
         }
         if (carro.getMarca() != null) {
             carroDTO.setMarca(mapToMarcaDTO(carro.getMarca()));
+        }
+        if (carro.getImagenCarros() != null) {
+            carroDTO.setRutaImagen(carro.getImagenCarros().getRuta_imagen());
+        } else {
+            carroDTO.setRutaImagen("assets/img/default-car.jpg");
         }
         return carroDTO;
     }
@@ -147,4 +152,6 @@ public class CartController {
         marcaDTO.setNombreMarca(marca.getNombre_marca());
         return marcaDTO;
     }
+
+    
 }

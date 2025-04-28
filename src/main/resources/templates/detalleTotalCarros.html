@@ -23,7 +23,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a th:href="@{'/marcasTipos?id_marca=' + ${carro.marca != null ? carro.marca.id_marca : ''}}" class="btn btn-back">Volver</a>
+                        <a th:href="@{'/totalCarros?id_marca=' + ${carro.marca != null ? carro.marca.id_marca : ''}}" class="btn btn-back">Volver</a>
                     </li>
                 </ul>
             </div>
@@ -111,8 +111,9 @@
     </div>
 
 
-    <script src="/js/btnCarrito.js"></script>
+    
     <script src="/js/carrito.js"></script>
+    <script src="/js/btnCarrito.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
