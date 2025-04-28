@@ -71,7 +71,7 @@ window.addEventListener('DOMContentLoaded', async () => {
             if (res.ok) {
                 const user = await res.json();
                 userName.textContent = user.nombre || "Usuario";
-                userAvatar.src = user.ruta_imagen_usuario || "/assets/img/FotoPerfil/default.png";
+                userAvatar.src = user.ruta_imagen_usuario || "/assets/img/FotoPerfil/usuario2.jpg";
                 userEmail.textContent = user.correo || "Correo no disponible";
 
                 loginButton.classList.add('d-none');

@@ -23,7 +23,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a th:href="@{'/marcasTipos?id_marca=' + ${carro.marca != null ? carro.marca.id_marca : ''}}" class="btn btn-back">Volver</a>
+                        <a th:href="@{'/?id_marca=' + ${carro.marca != null ? carro.marca.id_marca : ''}}" class="btn btn-back">Volver</a>
                     </li>
                 </ul>
             </div>

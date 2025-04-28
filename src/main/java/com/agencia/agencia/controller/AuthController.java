@@ -2,6 +2,7 @@ package com.agencia.agencia.controller;
 
 import com.agencia.agencia.dto.JwtAuthResponse;
 import com.agencia.agencia.dto.RegisterRequest;
+import com.agencia.agencia.dto.UserProfileDto;
 import com.agencia.agencia.model.Usuario;
 import com.agencia.agencia.security.JwtTokenProvider;
 import com.agencia.agencia.service.UsuarioService;
@@ -40,7 +41,7 @@ public class AuthController {
         u.setContrasena(req.getContrasena());
         u.setTelefono(req.getTelefono());
         u.setTipo_usuario(2);
-        u.setRuta_imagen_usuario("/assets/img/FotoPerfil/default.png");
+        u.setRuta_imagen_usuario("/assets/img/FotoPerfil/usuario2.jpg");
 
         try {
             usuarioService.registrarUsuario(u);
@@ -102,4 +103,40 @@ public class AuthController {
             return ResponseEntity.status(403).build();
         }
     }
+
+    @GetMapping("/profile")
+    public ResponseEntity<UserProfileDto> getProfile(Authentication authentication) {
+    Usuario usuario = usuarioService.obtenerUsuarioDesdeAutenticacion(authentication);
+
+    if (usuario == null) {
+        return ResponseEntity.status(401).build();
+    }
+
+    UserProfileDto profile = new UserProfileDto(
+            usuario.getId_usuario(),
+            usuario.getNombre(),
+            usuario.getCorreo(),
+            usuario.getRuta_imagen_usuario(),
+            usuario.getTipo_usuario()
+    );
+
+    return ResponseEntity.ok(profile);
+}
+
+@PostMapping("/logout")
+public ResponseEntity<?> logout(HttpServletResponse response) {
+    // Crear cookie vacía para eliminar la JWT
+    Cookie cookie = new Cookie("JWT_TOKEN", "");
+    cookie.setMaxAge(0); // Expira inmediatamente
+    cookie.setPath("/"); 
+    cookie.setHttpOnly(false); // (igual que cuando la creaste)
+    cookie.setSecure(false);
+    cookie.setAttribute("SameSite", "Lax");
+
+    response.addCookie(cookie);
+
+    return ResponseEntity.ok().build();
+}
+
+
 }

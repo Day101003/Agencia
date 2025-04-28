@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.Authentication;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -153,6 +154,19 @@ public class UsuarioServiceImpl implements UsuarioService {
                 .authorities(role)
                 .build();
     }
+    @Override
+public Usuario obtenerUsuarioDesdeAutenticacion(Authentication authentication) {
+    if (authentication == null || !authentication.isAuthenticated()) {
+        return null;
+    }
+
+    String correo = authentication.getName(); // El username que Spring Security guarda es el correo
+
+    Optional<Usuario> usuarioOptional = findByCorreo(correo);
+
+    return usuarioOptional.orElse(null);
+}
+
 
     
 }

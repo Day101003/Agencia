@@ -66,4 +66,12 @@ public class MainController {
             return "index";
         }
     }
+
+    
+
+    @GetMapping("/totalCarros")
+    public String listarTodosCarros(Model model) {
+        model.addAttribute("carros", carrosService.listarCarros());
+        return "totalCarros";
+    }
 }

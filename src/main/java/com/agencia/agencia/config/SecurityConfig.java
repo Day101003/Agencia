@@ -47,9 +47,10 @@ public class SecurityConfig {
             .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authenticationProvider(authProvider)
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/cart/**").authenticated()
-                .requestMatchers("/admin/**").hasRole("ADMIN")
-                .requestMatchers("/home", "/login", "/register", "/index", "/", "/css/**", "/js/**", "/assets/**").permitAll()
+            .requestMatchers("/favoritos/").authenticated() // Agregar ruta de favoritos
+                .requestMatchers("/cart/").authenticated()
+                .requestMatchers("/admin/").hasRole("ADMIN")
+                .requestMatchers("/home", "/login", "/register", "/index", "/", "/css/", "/js/", "/assets/").permitAll()
                 .anyRequest().permitAll())
             .formLogin(form -> form.disable())
             .oauth2Login(oauth2 -> oauth2
@@ -91,7 +92,7 @@ public class SecurityConfig {
         cfg.setExposedHeaders(List.of("Authorization", "Set-Cookie"));
 
         UrlBasedCorsConfigurationSource src = new UrlBasedCorsConfigurationSource();
-        src.registerCorsConfiguration("/**", cfg);
+        src.registerCorsConfiguration("/", cfg);
         return src;
     }
 

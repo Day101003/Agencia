@@ -51,23 +51,6 @@
                     Ingresar
                 </button>
 
-                <!-- Perfil de Usuario (visible solo si hay sesión) -->
-                <div id="userProfile" class="dropdown d-none">
-                    <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="userDropdown"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <img id="userAvatar" src="" alt="Perfil" width="30" height="30" class="rounded-circle me-2">
-                        <span id="userName" class="fw-semibold text-dark"></span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end text-small shadow" aria-labelledby="userDropdown">
-                        <li>
-                            <h6 class="dropdown-header" id="userEmail"></h6>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item text-danger" href="#" onclick="logout()">Cerrar sesión</a></li>
-                    </ul>
-                </div>
 
                 <!-- Botón de administrador -->
                 <button class="btn btn-warning ms-2 fw-bold text-dark" onclick="window.location.href='/admin'">
@@ -78,17 +61,51 @@
                 <a href="#" class="btn btn-dark btn-social mx-2" data-bs-toggle="modal" data-bs-target="#cartModal">
                     <i class="fas fa-shopping-cart"></i>
                 </a>
-                
+
+                <!-- ✅ BOTÓN para abrir favoritos -->
+                <a href="#" class="btn btn-dark btn-social mx-2" data-bs-toggle="modal"
+                    data-bs-target="#favoritosModal">
+                    <i class="fas fa-heart"></i>
+                    <span class="badge bg-danger" id="favoritosCount"></span>
+                </a>
+
+
 
                 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
                 <a href="https://wa.me/50684481408?text=Hola%2C%20quiero%20más%20información" target="_blank">
                     <i class="fab fa-whatsapp" style="font-size: 40px; color: green;"></i>
                 </a>
+
+                <!-- Perfil de Usuario (visible solo si hay sesión) -->
+                <div id="userProfile" class="dropdown d-none">
+                    <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="userDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <!-- Imagen de perfil más pequeña y elegante -->
+                        <img id="userAvatar" src="assets/img/FotoPerfil/usuario2.png" alt="Perfil" width="60" height="60" 
+                            class="rounded-circle me-2">
+                        <!-- Nombre de usuario reducido -->
+                        <span id="userName" class="fw-semibold text-dark" style="font-size: 0.9rem; ">Nombre
+                            Usuario</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end text-small shadow" aria-labelledby="userDropdown"
+                        style="min-width: 200px;">
+                        <li>
+                            <h6 class="dropdown-header" id="userEmail" style="font-size: 0.85rem;">usuario@dominio.com
+                            </h6>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item text-danger" href="#" onclick="logout()">Cerrar sesión</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>
 
+    <!-- Agregar espacio de separación para el navbar -->
+    <div style="margin-top: 80px;"></div>
 
 
 </body>
@@ -98,7 +115,7 @@
     <div class="container">
         <div class="masthead-subheading" style="color: rgb(255, 198, 10);">Agencia JDNK</div>
         <div class="masthead-heading text-uppercase" style="color: rgb(255, 198, 10);">BIENVENIDOS</div>
-        <a class="btn btn-primary btn-xl text-uppercase" href="#services">Más información</a>
+        <a class="btn btn-primary btn-xl text-uppercase" href="/totalCarros">Mira Más De Nuestros Autos</a>
     </div>
 </header>
 
@@ -290,6 +307,15 @@
                                 onmouseout="this.style.background='#f1c40f';">
                                 <i class="fas fa-cart-plus me-2"></i> Agregar al Carrito
                             </button>
+
+                           <!-- Botón para agregar a favoritos -->
+                            <button class="btn btn-danger btn-lg btn-agregar-favorito me-2" 
+                            th:attr="data-id-carro=${carro.id_carro}" 
+                            th:onclick="|agregarAFavoritos(${carro.id_carro})|">
+                            <i class="fas fa-heart me-2"></i> Agregar a Favoritos
+                            </button>
+
+
                             <button class="btn btn-primary btn-lg text-uppercase" data-bs-dismiss="modal" type="button"
                                 style="border-radius: 25px; padding: 12px 30px; transition: all 0.3s ease; background: #10212c; border: none;"
                                 onmouseover="this.style.background='#10212c';"
@@ -309,22 +335,42 @@
 <!-- Cart Modal -->
 <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="cartModalLabel">Mi Carrito</h5>
+        <div class="modal-content" style="border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="cartModalLabel">Mi Carrito de Compras</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body p-4">
                 <div id="cartContent">
-                    <p>Cargando carrito...</p>
+                    <p class="text-muted text-center">Cargando carrito...</p>
                 </div>
-                <div class="text-end mt-3">
-                    <h5>Total: $<span id="cartTotal">0</span></h5>
+                <div class="text-end mt-4">
+                    <h4 class="fw-bold">Total: $<span id="cartTotal">0</span></h4>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="payButton" disabled>Pagar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL para mostrar los favoritos -->
+<div class="modal fade" id="favoritosModal" tabindex="-1" aria-labelledby="favoritosModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="favoritosModalLabel">Mis Favoritos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div id="favoritosContent">
+                    <p>Cargando favoritos...</p>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" id="payButton" disabled>Pagar</button>
             </div>
         </div>
     </div>
@@ -332,6 +378,7 @@
 
 
 </section>
+
 
 <!-- Clients-->
 <div class="py-5">
@@ -346,12 +393,12 @@
                         alt="..." aria-label="Google Logo" /></a>
             </div>
             <div class="col-md-3 col-sm-6 my-3">
-                <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/bmw2.jpg"
-                        alt="..." aria-label="Facebook Logo" /></a>
+                <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/bmw2.jpg" alt="..."
+                        aria-label="Facebook Logo" /></a>
             </div>
             <div class="col-md-3 col-sm-6 my-3">
-                <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/marca3.jpg" alt="..."
-                        aria-label="IBM Logo" /></a>
+                <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/marca3.jpg"
+                        alt="..." aria-label="IBM Logo" /></a>
             </div>
         </div>
     </div>
@@ -440,6 +487,7 @@
         </div>
     </div>
 </footer>
+
 
 <script>
     // Función para obtener el token JWT de la cookie
@@ -542,47 +590,202 @@
 
     // Existing user profile and logout code
     window.addEventListener('DOMContentLoaded', async () => {
-        const cookieValue = document.cookie.split('; ').find(row => row.startsWith('JWT_TOKEN='));
-        const token = cookieValue ? cookieValue.split('=')[1] : null;
+    const cookieValue = document.cookie.split('; ').find(row => row.startsWith('JWT_TOKEN='));
+    const token = cookieValue ? cookieValue.split('=')[1] : null;
 
-        const loginButton = document.getElementById('loginButton');
-        const userProfile = document.getElementById('userProfile');
-        const userAvatar = document.getElementById('userAvatar');
-        const userName = document.getElementById('userName');
-        const userEmail = document.getElementById('userEmail');
+    const loginButton = document.getElementById('loginButton');
+    const userProfile = document.getElementById('userProfile');
+    const userAvatar = document.getElementById('userAvatar');
+    const userName = document.getElementById('userName');
+    const userEmail = document.getElementById('userEmail');
 
-        if (token) {
-            try {
-                const res = await fetch('/api/user/profile', {
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    }
-                });
-
-                if (res.ok) {
-                    const user = await res.json();
-                    userName.textContent = user.nombre || "Usuario";
-                    userAvatar.src = user.ruta_imagen_usuario || "/assets/img/FotoPerfil/default.png";
-                    userEmail.textContent = user.correo || "Correo no disponible";
-
-                    loginButton.classList.add('d-none');
-                    userProfile.classList.remove('d-none');
-                } else {
-                    console.warn("⚠ Token no válido o expirado");
+    if (token) {
+        try {
+            const res = await fetch('/api/auth/profile',    {
+                headers: {
+                    'Authorization': 'Bearer ' + token
                 }
-            } catch (err) {
-                console.error("❌ Error al cargar perfil:", err);
+            });
+
+            if (res.ok) {
+                const user = await res.json();
+                userName.textContent = user.nombre || "Usuario";
+                userAvatar.src = user.ruta_imagen_usuario || "/assets/img/FotoPerfil/usuario2.jpg";
+                userEmail.textContent = user.correo || "Correo no disponible";
+
+                loginButton.classList.add('d-none');
+                userProfile.classList.remove('d-none');
+
+                // ✅ Aquí escondemos el botón admin si no es tipo_usuario 1
+                const adminButton = document.querySelector('button[onclick*="/admin"]');
+                if (user.tipo_usuario !== 1 && adminButton) {
+                    adminButton.classList.add('d-none');
+                }
+
+            } else {
+                console.warn("⚠ Token no válido o expirado");
+            }
+        } catch (err) {
+            console.error("❌ Error al cargar perfil:", err);
+        }
+    } else {
+        console.warn("⚠ JWT_TOKEN no encontrado en cookies.");
+    }
+});
+
+
+async function logout() {
+    try {
+        await fetch('/api/auth/logout', { method: 'POST' });
+    } catch (e) {
+        console.warn('Error llamando logout backend, pero seguimos.', e);
+    }
+
+    // Ahora limpiamos la cookie en el navegador también
+    document.cookie = 'JWT_TOKEN=; Max-Age=0; path=/; SameSite=Strict';
+
+    window.location.href = '/home'; // Redirige a Home o donde quieras
+}
+
+
+
+</script>
+
+<!-- Script para agregar y cargar favoritos dentro del modal -->
+<script>
+    async function agregarAFavoritos(carroId) {
+        try {
+            const response = await fetch(`/favoritos/agregar/${carroId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            if (response.ok) {
+                alert('¡Carro agregado a favoritos!');
+                await cargarFavoritos();
+            } else {
+                alert('❌ Error al agregar a favoritos.');
+            }
+        } catch (error) {
+            console.error('Error al agregar a favoritos:', error);
+            alert('❌ Hubo un error al agregar.');
+        }
+    }
+
+    async function eliminarDeFavoritos(carroId) {
+        if (!confirm('¿Eliminar este carro de tus favoritos?')) return;
+
+        try {
+            const response = await fetch(`/favoritos/eliminar/${carroId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            if (response.ok) {
+                alert('Carro eliminado de favoritos.');
+                await cargarFavoritos();
+            } else {
+                alert('❌ Error al eliminar favorito.');
+            }
+        } catch (error) {
+            console.error('Error al eliminar favorito:', error);
+            alert('❌ Error crítico al eliminar.');
+        }
+    }
+
+    async function agregarAlCarritoDesdeFavoritos(carroId) {
+    const token = getJwtToken();
+
+    if (!token) {
+        window.location.href = '/home';
+        return;
+    }
+
+    try {
+        const response =  await fetch(`/cart/add?carroId=${carroId}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            alert('¡Carro agregado al carrito!');
+            await cargarCarrito();  // Opcional: actualizar carrito
+            await cargarFavoritos(); // Opcional: actualizar favoritos
+        } else {
+            alert('❌ Error al agregar al carrito.');
+        }
+    } catch (error) {
+        console.error('Error al agregar al carrito desde favoritos:', error);
+    }
+}
+
+
+
+async function cargarFavoritos() {
+    const favoritosContent = document.getElementById('favoritosContent');
+    const favoritosCount = document.getElementById('favoritosCount');
+
+    try {
+        const response = await fetch('/favoritos', { method: 'GET' });
+
+        if (response.ok) {
+            const favoritos = await response.json();
+            favoritosCount.textContent = favoritos.length;
+
+            if (favoritos.length > 0) {
+                let html = '<ul class="list-group">';
+                favoritos.forEach(favorito => {
+                    html += `
+                        <li class="list-group-item d-flex justify-content-between align-items-start flex-column mb-2">
+                            <div class="d-flex w-100 justify-content-between align-items-center">
+                                <div>
+                                    <strong>${favorito.marca}</strong> ${favorito.modelo} (${favorito.ano})
+                                </div>
+                                <div>
+                                    <span class="badge bg-primary rounded-pill">$${favorito.precio.toLocaleString()}</span>
+                                </div>
+                            </div>
+                            <div class="mt-2 d-flex justify-content-end gap-2">
+                                <!-- Botón Agregar al carrito -->
+                                <button class="btn btn-sm btn-success" onclick="agregarAlCarritoDesdeFavoritos(${favorito.idCarro})">
+                                    <i class="fas fa-cart-plus"></i> Agregar al carrito
+                                </button>
+
+                                <!-- Botón Eliminar de favoritos -->
+                                <button class="btn btn-sm btn-danger" onclick="eliminarDeFavoritos(${favorito.idCarro})">
+                                    <i class="fas fa-trash"></i> Eliminar
+                                </button>
+                            </div>
+                        </li>
+                    `;
+                });
+                html += '</ul>';
+
+                favoritosContent.innerHTML = html;
+            } else {
+                favoritosContent.innerHTML = '<p>No tienes favoritos guardados.</p>';
             }
         } else {
-            console.warn("⚠ JWT_TOKEN no encontrado en cookies.");
+            favoritosContent.innerHTML = '<p>❌ Error al cargar los favoritos.</p>';
+            favoritosCount.textContent = '0';
         }
-    });
-
-    function logout() {
-        document.cookie = 'JWT_TOKEN=; Max-Age=0; path=/; SameSite=Strict';
-        window.location.href = '/home';
+    } catch (error) {
+        console.error('Error al cargar favoritos:', error);
+        favoritosContent.innerHTML = '<p>❌ Error al cargar los favoritos.</p>';
+        favoritosCount.textContent = '0';
     }
+}
+
+
+    // ✅ Cargar favoritos al abrir modal
+    document.getElementById('favoritosModal').addEventListener('show.bs.modal', cargarFavoritos);
 </script>
+
+
+
 
 <script src="/js/carrito.js"></script>
 <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
@@ -590,4 +793,3 @@
 
 </body>
 
-</html>
