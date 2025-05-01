@@ -23,11 +23,11 @@ public class Orden {
     @Column(name = "estado_pago", nullable = false)
     private boolean estado_pago;
 
-    @ManyToOne(optional = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuarios", nullable = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuarios", nullable = false)
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "orden", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "orden", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<DetalleOrdenes> detalles = new ArrayList<>();
 
     public Orden() {
@@ -39,6 +39,7 @@ public class Orden {
         this.estado_pago = estado_pago;
         this.usuario = usuario;
     }
+
     public long getId_orden() {
         return id_orden;
     }
@@ -87,5 +88,9 @@ public class Orden {
         this.detalles = detalles;
     }
 
-    
+    @Override
+    public String toString() {
+        return "Orden{id_orden=" + id_orden + ", fecha_orden=" + fecha_orden + ", precio=" + precio +
+               ", estado_pago=" + estado_pago + ", detalles=" + detalles + "}";
+    }
 }

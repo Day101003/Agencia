@@ -24,7 +24,11 @@
 
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="/css/styles.css" rel="stylesheet" />
+    <!-- Para sweetAlerts-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+
+    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </head>
 
 <body id="page-top">
@@ -53,9 +57,12 @@
 
 
                 <!-- Botón de administrador -->
-                <button class="btn btn-warning ms-2 fw-bold text-dark" onclick="window.location.href='/admin'">
+                <button id="adminButton" class="btn btn-warning ms-2 fw-bold text-dark d-none"
+                    onclick="window.location.href='/admin'">
                     Administradores
                 </button>
+
+
 
                 <!-- Icono del carrito -->
                 <a href="#" class="btn btn-dark btn-social mx-2" data-bs-toggle="modal" data-bs-target="#cartModal">
@@ -118,7 +125,6 @@
         <a class="btn btn-primary btn-xl text-uppercase" href="/totalCarros">Mira Más Autos</a>
     </div>
 </header>
-
 <!-- Servicios (Marcas Carousel) -->
 <section class="page-section bg-light" id="services">
     <div class="container">
@@ -133,29 +139,29 @@
                         th:classappend="${iterStat.first} ? 'active' : ''">
                         <div class="row justify-content-center">
                             <div th:each="innerIndex : ${#numbers.sequence(iterStat.index, iterStat.index + 2)}"
-                                th:if="${innerIndex < marcas.size()}" class="col-6 col-md-3 mb-4 px-2">
+                                th:if="${innerIndex < marcas.size()}" class="col-6 col-sm-4 col-md-3 mb-4 px-2">
                                 <a th:href="@{/marcasTipos(id_marca=${marcas[innerIndex].id_marca})}"
-                                    class="card text-center text-decoration-none"
+                                    class="card text-center text-decoration-none h-100"
                                     style="border: 2px solid #f1c40f; border-radius: 15px; background: linear-gradient(135deg, #f8f9fa, #f8f9fa); padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.3s;">
                                     <h5 class="card-title"
                                         th:text="${marcas[innerIndex].nombre_marca != null ? marcas[innerIndex].nombre_marca : 'Sin Nombre'}"
-                                        style="font-size: 1.8rem; color: #2c3e50; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin: 0;">
+                                        style="font-size: 1.5rem; color: #2c3e50; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin: 0;">
                                     </h5>
                                 </a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#marcasCarousel" data-bs-slide="prev" style="background-color: transparent; border: none;">
+                <button class="carousel-control-prev" type="button" data-bs-target="#marcasCarousel"
+                    data-bs-slide="prev" style="background-color: transparent; border: none;">
                     <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: invert(1);"></span>
                     <span class="visually-hidden">Previous</span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#marcasCarousel" data-bs-slide="next" style="background-color: transparent; border: none;">
+                <button class="carousel-control-next" type="button" data-bs-target="#marcasCarousel"
+                    data-bs-slide="next" style="background-color: transparent; border: none;">
                     <span class="carousel-control-next-icon" aria-hidden="true" style="filter: invert(1);"></span>
                     <span class="visually-hidden">Next</span>
                 </button>
-                
-                
             </div>
         </div>
         <div th:if="${marcas == null or #lists.isEmpty(marcas)}" class="text-center text-muted">
@@ -165,8 +171,7 @@
 </section>
 
 
-
-<!-- Portfolio Carousel Carros-->
+<!-- Portfolio Carousel Carros -->
 <section class="page-section bg-light" id="portfolio">
     <div class="container">
         <div class="text-center">
@@ -175,12 +180,11 @@
         </div>
         <div id="portfolioCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
-                <div th:each="carro, iterStat : ${carros}" th:if="${iterStat.index % 2 == 0}" class="carousel-item"
-                    th:classappend="${iterStat.first} ? 'active' : ''">
+                <div th:each="carro, iterStat : ${carros}" th:if="${iterStat.index % 2 == 0 and carro.estado == 1}"
+                    class="carousel-item" th:classappend="${iterStat.first} ? 'active' : ''">
                     <div class="row justify-content-center">
-
-                        <div class="col-6 col-md-5 px-2">
-                            <div class="card" style="width: 26rem;">
+                        <div class="col-12 col-sm-6 col-md-5 mb-4 px-2">
+                            <div class="card h-100">
                                 <a class="portfolio-link" data-bs-toggle="modal"
                                     th:attr="data-bs-target='#portfolioModal' + ${carro.id_carro}">
                                     <img th:src="@{'/' + ${carro.imagenCarros != null ? carro.imagenCarros.ruta_imagen : 'assets/img/default-car.jpg'}}"
@@ -197,9 +201,9 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div th:if="${iterStat.index + 1 < carros.size()}" class="col-6 col-md-5 px-2">
-                            <div class="card" style="width: 26rem;">
+                        <div th:if="${iterStat.index + 1 < carros.size() and carros[iterStat.index + 1].estado == 1}"
+                            class="col-12 col-sm-6 col-md-5 mb-4 px-2">
+                            <div class="card h-100">
                                 <a class="portfolio-link" data-bs-toggle="modal"
                                     th:attr="data-bs-target='#portfolioModal' + ${carros[iterStat.index + 1].id_carro}">
                                     <img th:src="@{'/' + ${carros[iterStat.index + 1].imagenCarros != null ? carros[iterStat.index + 1].imagenCarros.ruta_imagen : 'assets/img/default-car.jpg'}}"
@@ -219,7 +223,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Controles del carrusel -->
             <button class="carousel-control-prev" type="button" data-bs-target="#portfolioCarousel"
                 data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"
@@ -236,13 +239,10 @@
     </div>
 </section>
 
-
 <!-- Portfolio Modals -->
-<div th:each="carro : ${carros}" class="portfolio-modal modal fade" th:id="'portfolioModal' + ${carro.id_carro}"
-    tabindex="-1" role="dialog" aria-hidden="true">
-
+<div th:each="carro : ${carros}" th:if="${carro.estado == 1}" class="portfolio-modal modal fade"
+    th:id="'portfolioModal' + ${carro.id_carro}" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-
         <div class="modal-content"
             style="border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
             <div class="close-modal" data-bs-dismiss="modal"
@@ -261,7 +261,6 @@
 
                             <div class="image-container mb-4"
                                 style="position: relative; max-height: 400px; overflow: hidden; border-radius: 10px;">
-
                                 <img th:src="@{'/' + ${carro.imagenCarros != null ? carro.imagenCarros.ruta_imagen : 'assets/img/default-car.jpg'}}"
                                     class="img-fluid" alt="Car Image"
                                     style="width: 100%; object-fit: cover; transition: transform 0.3s ease;"
@@ -277,19 +276,13 @@
                                     onmouseout="this.style.background='#dc3545';">
                                     <i class="far fa-heart"></i>
                                 </button>
-
-
                             </div>
-
-
-
 
                             <div class="car-details p-4"
                                 style="background: #f8f9fa; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                                 <div class="row text-left">
                                     <div class="col-md-6 mb-3">
-                                        <p class="mb-2"><strong>Año:</strong> <span th:text="${carro.ano}"></span>
-                                        </p>
+                                        <p class="mb-2"><strong>Año:</strong> <span th:text="${carro.ano}"></span></p>
                                         <p class="mb-2"><strong>Color:</strong> <span
                                                 th:text="${carro.color_carro}"></span></p>
                                     </div>
@@ -322,33 +315,26 @@
                             <!-- Botones -->
                             <div class="mt-5 text-center">
                                 <button class="btn btn-warning btn-lg btn-agregar-carrito me-2"
-                                th:disabled="${!carro.disponibilidad}" th:attr="data-id-carro=${carro.id_carro}"
-                                style="border-radius: 25px; padding: 12px 30px; transition: all 0.3s ease; background: #f1c40f; border: none;"
-                                onmouseover="this.style.background='#e67e22';"
-                                onmouseout="this.style.background='#f1c40f';">
-                                <i class="fas fa-cart-plus me-2"></i> Agregar al Carrito
-                            </button>
-
-                           
-
-
-                            <button class="btn btn-primary btn-lg text-uppercase" data-bs-dismiss="modal" type="button"
-                                style="border-radius: 25px; padding: 12px 30px; transition: all 0.3s ease; background: #10212c; border: none;"
-                                onmouseover="this.style.background='#10212c';"
-                                onmouseout="this.style.background=' #133953';">
-                                <i class="fas fa-xmark me-2"></i> Cerrar
-                            </button>
+                                    th:disabled="${!carro.disponibilidad}" th:attr="data-id-carro=${carro.id_carro}"
+                                    style="border-radius: 25px; padding: 12px 30px; transition: all 0.3s ease; background: #f1c40f; border: none;"
+                                    onmouseover="this.style.background='#e67e22';"
+                                    onmouseout="this.style.background='#f1c40f';">
+                                    <i class="fas fa-cart-plus me-2"></i> Agregar al Carrito
+                                </button>
+                                <button class="btn btn-primary btn-lg text-uppercase" data-bs-dismiss="modal"
+                                    type="button"
+                                    style="border-radius: 25px; padding: 12px 30px; transition: all 0.3s ease; background: #10212c; border: none;"
+                                    onmouseover="this.style.background='#10212c';"
+                                    onmouseout="this.style.background=' #133953';">
+                                    <i class="fas fa-xmark me-2"></i> Cerrar
+                                </button>
                             </div>
-
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-</div>
 </div>
 
 
@@ -399,26 +385,25 @@
 
 </section>
 
-
-<!-- Clients-->
+<!-- Clients -->
 <div class="py-5">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-3 col-sm-6 my-3">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 my-3">
                 <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/marca5.jpg"
-                        alt="..." aria-label="Microsoft Logo" /></a>
+                        alt="Microsoft Logo" /></a>
             </div>
-            <div class="col-md-3 col-sm-6 my-3">
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 my-3">
                 <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/marca1.jpg"
-                        alt="..." aria-label="Google Logo" /></a>
+                        alt="Google Logo" /></a>
             </div>
-            <div class="col-md-3 col-sm-6 my-3">
-                <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/bmw2.jpg" alt="..."
-                        aria-label="Facebook Logo" /></a>
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 my-3">
+                <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/bmw2.jpg"
+                        alt="Facebook Logo" /></a>
             </div>
-            <div class="col-md-3 col-sm-6 my-3">
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 my-3">
                 <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/marca3.jpg"
-                        alt="..." aria-label="IBM Logo" /></a>
+                        alt="IBM Logo" /></a>
             </div>
         </div>
     </div>
@@ -619,6 +604,10 @@
         const userName = document.getElementById('userName');
         const userEmail = document.getElementById('userEmail');
 
+        if (adminButton) {
+            adminButton.classList.add('d-none');
+        }
+
         if (token) {
             try {
                 const res = await fetch('/api/auth/profile', {
@@ -633,13 +622,12 @@
                     userAvatar.src = user.ruta_imagen_usuario || "/assets/img/FotoPerfil/usuario2.jpg";
                     userEmail.textContent = user.correo || "Correo no disponible";
 
-                    loginButton.classList.add('d-none');
+                   loginButton.classList.add('d-none');
                     userProfile.classList.remove('d-none');
 
-                    // ✅ Aquí escondemos el botón admin si no es tipo_usuario 1
-                    const adminButton = document.querySelector('button[onclick*="/admin"]');
-                    if (user.tipo_usuario !== 1 && adminButton) {
-                        adminButton.classList.add('d-none');
+                    // Mostrar el botón de Administradores solo si el usuario es administrador (tipo_usuario == 1)
+                    if (adminButton && user.tipo_usuario === 1) {
+                        adminButton.classList.remove('d-none');
                     }
 
                 } else {
@@ -669,6 +657,24 @@
 
 
 
+    // Nuevo script para el efecto de desvanecimiento del navbar
+    window.addEventListener('scroll', () => {
+        const navbar = document.querySelector('.navbar');
+        const scrollPosition = window.scrollY; // Posición actual del scroll
+        const fadeStart = 100; // Punto donde comienza el desvanecimiento (en píxeles)
+        const fadeEnd = 450; // Punto donde el navbar estará completamente oculto (en píxeles)
+
+        let opacity = 1;
+        if (scrollPosition >= fadeStart) {
+            opacity = 1 - (scrollPosition - fadeStart) / (fadeEnd - fadeStart);
+        }
+
+
+        opacity = Math.max(0, Math.min(1, opacity));
+
+
+        navbar.style.opacity = opacity;
+    });
 </script>
 
 
@@ -676,7 +682,9 @@
 
 <script src="/js/carrito.js"></script>
 <script src="/js/favoritos.js"></script>
+<script src="/js/contactForm.js"></script>
+
 <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
-<script src="/js/scripts.js"></script>
+
 
 </body>

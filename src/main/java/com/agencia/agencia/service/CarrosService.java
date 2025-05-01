@@ -23,6 +23,10 @@ public class CarrosService {
         return carroRepository.findAll();
     }
 
+    public List<Carro> listarCarrosActivos() {
+        return carroRepository.findByEstado(1);
+    }
+
     public Carro consultar(int id_carro){
         return carroRepository.findById(id_carro).orElse(null);
     }

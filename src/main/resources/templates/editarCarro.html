@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Carro</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="css/carro.css" rel="stylesheet" />
     <style>
         .navbar-custom {
@@ -27,7 +28,7 @@
                 <a href="/controller_carro/listaCar" class="btn btn-warning text-dark fw-bold mr-3">Lista Carros</a>
             </ul>
             <a href="/controller_carro/opciones" class="btn btn-warning text-dark fw-bold mr-3">Detalles Carros</a>
-            <a href="/admin" class="btn btn-warning text-dark fw-bold">Administrador</a>
+            <a href="/controller_carro/listaCar" class="btn btn-warning text-dark fw-bold">Volver</a>
         </div>
     </nav>
 
@@ -51,7 +52,7 @@
                         <div class="form-group">
                             <label for="estado">Estado</label>
                             <select name="estado" class="form-control" required>
-                                <option value="1" th:selected="${carros.estado == 1}">activo</option>
+                                <option value="1" th:selected="${carros.estado == 1}">Activo</option>
                                 <option value="0" th:selected="${carros.estado == 0}">Inactivo</option>
                             </select>
                         </div>
@@ -61,7 +62,10 @@
                         </div>
                         <div class="form-group">
                             <label for="combustible">Combustible</label>
-                            <input type="text" name="combustible" class="form-control" th:value="${carros.combustible}" required>
+                            <select name="combustible" class="form-control" th:value="${carros.combustible}" required>
+                                <option value="1">Gasolina</option>
+                                <option value="0">Eléctrico</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="numero_puertas">Puertas</label>
@@ -76,7 +80,10 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="transmision">Transmisión</label>
-                            <input type="text" name="transmision" class="form-control" th:value="${carros.transmision}" required>
+                            <select name="transmision" class="form-control" th:value="${carros.transmision}" required>
+                                <option value="1">Automático</option>
+                                <option value="0">Manual</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="kilometraje">Kilometraje</label>
@@ -132,7 +139,7 @@
                         </div>
 
                         <div class="text-center">
-                            <button type="submit" class="btn btn-warning mt-3">Guardar Cambios</button>
+                            <button type="submit" id="btnGuardarCambios" class="btn btn-warning mt-3">Guardar Cambios</button>
                         </div>
                     </div>
                 </div>
@@ -143,7 +150,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="script.js"></script>
+    <script src="/js/alertaEditarCarro.js"></script>
 </body>
 
 </html>
