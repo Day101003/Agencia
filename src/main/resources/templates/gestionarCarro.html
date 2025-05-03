@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Módulo de Administradores</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="css/carro.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="/css/carro.css" rel="stylesheet" />
     <style>
         .navbar-custom {
             background-color: rgb(255, 198, 10);
@@ -60,7 +61,10 @@
                         </div>
                         <div class="form-group">
                             <label for="combustible">Combustible</label>
-                            <input type="text" name="combustible" class="form-control" required>
+                            <select name="combustible" class="form-control" required>
+                                <option value="1">Gasolina</option>
+                                <option value="0">Electrico</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="numero_puertas">Puertas</label>
@@ -72,7 +76,10 @@
                         </div>
                         <div class="form-group">
                             <label for="transmision">Transmisión</label>
-                            <input type="text" name="transmision" class="form-control" required>
+                            <select name="transmision" class="form-control" required>
+                                <option value="1">Automatico</option>
+                                <option value="0">Manual</option>
+                            </select>
                         </div>
                         
                     </div>
@@ -122,16 +129,29 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="imagen">Imagen</label>
-                            <select class="form-control" name="imagen" required>
-                                <option value="">Seleccione una imagen</option>
-                                <option th:each="imagen : ${imagen}" th:value="${imagen.id_imagen}" th:text="${imagen.ruta_imagen}">
-                                </option>
-                            </select>
+                            <label for="imagen">Imágenes</label>
+                            <div style="max-height: 400px; overflow-y: auto; border: 1px solid #ccc; padding: 1rem;">
+                                <div class="row" style="gap: 1rem;" th:each="imagen : ${imagen}">
+                                    <div class="col-12 d-flex justify-content-center">
+                                        <label style="cursor: pointer; display: block;">
+                                            <input type="radio"
+                                                   name="imagen"
+                                                   th:value="${imagen.id_imagen}"
+                                                   id="imagen-${imagen.id_imagen}"
+                                                   required
+                                                   style="display: none;" />
+                                            <img th:src="@{'/' + ${imagen.ruta_imagen}}"
+                                                 class="img-thumbnail"
+                                                 alt="Imagen"
+                                                 style="width: 120px; height: auto; object-fit: cover;" />
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="text-center">
-                            <button type="submit" class="btn btn-warning mt-3">Agregar Carro</button>
+                            <button type="submit" id="btnAgregarCarro" class="btn btn-warning mt-3">Agregar Carro</button>
                         </div>
                     </div>
                 </div>
@@ -142,7 +162,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="script.js"></script>
+    <script src="/js/alertaAgregarCarro.js"></script>
 </body>
 
 </html>

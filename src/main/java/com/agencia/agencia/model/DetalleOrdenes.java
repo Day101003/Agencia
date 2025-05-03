@@ -1,35 +1,28 @@
 package com.agencia.agencia.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "detalles_ordenes")
 public class DetalleOrdenes {
     
-  @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
-    @Column(name= "id_detalle", nullable= false)
+    @Column(name = "id_detalle", nullable = false)
     private long id_detalle;
 
     @Column(name = "cantidad", nullable = false)
     private int cantidad;
+
     @Column(name = "precio_unitario", nullable = false)
     private double precio_unitario;
 
-  @ManyToOne(optional = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "carros", nullable = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "carros", nullable = false)
     private Carro carro;
 
-    @ManyToOne(optional = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "ordenes", nullable = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ordenes", nullable = false)
     private Orden orden;
 
     public DetalleOrdenes() {
@@ -82,5 +75,9 @@ public class DetalleOrdenes {
         this.orden = orden;
     }
 
-    
+    @Override
+    public String toString() {
+        return "DetalleOrdenes{id_detalle=" + id_detalle + ", cantidad=" + cantidad +
+               ", precio_unitario=" + precio_unitario + ", carro=" + (carro != null ? carro.getId_carro() : null) + "}";
+    }
 }
