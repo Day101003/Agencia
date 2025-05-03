@@ -7,18 +7,15 @@ public class FavoritoDTO {
     private String modelo;
     private Integer ano;
     private Integer precio;
-    private String imagenUrl; // Nuevo campo para la imagen
 
-    public FavoritoDTO(Long idCarro, String marca, String modelo, Integer ano, Integer precio, String imagenUrl) {
+    public FavoritoDTO(Long idCarro, String marca, String modelo, Integer ano, Integer precio) {
         this.idCarro = idCarro;
         this.marca = marca;
         this.modelo = modelo;
         this.ano = ano;
         this.precio = precio;
-        this.imagenUrl = imagenUrl;
     }
 
-    // Getters y setters existentes
     public Long getIdCarro() {
         return idCarro;
     }
@@ -57,14 +54,5 @@ public class FavoritoDTO {
 
     public void setPrecio(Integer precio) {
         this.precio = precio;
-    }
-
-    // Getter y setter para imagenUrl
-    public String getImagenUrl() {
-        return imagenUrl;
-    }
-
-    public void setImagenUrl(String imagenUrl) {
-        this.imagenUrl = imagenUrl;
     }
 }

@@ -41,7 +41,7 @@ public class AuthController {
         u.setContrasena(req.getContrasena());
         u.setTelefono(req.getTelefono());
         u.setTipo_usuario(2);
-        u.setRuta_imagen_usuario("/assets/img/FotoPerfil/usuario2.jpg");
+        u.setRuta_imagen_usuario("/assets/img/FotoPerfil/default.png");
 
         try {
             usuarioService.registrarUsuario(u);

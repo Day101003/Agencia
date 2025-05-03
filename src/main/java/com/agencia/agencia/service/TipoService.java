@@ -3,6 +3,7 @@ package com.agencia.agencia.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import com.agencia.agencia.model.Usuario;
 import com.agencia.agencia.model.Tipo;
 import com.agencia.agencia.repository.TipoRepository;
 

@@ -1,7 +1,7 @@
 package com.agencia.agencia.dto;
 
 public class UserProfileDto {
-
+    
     private Integer id;
     private String nombre;
     private String correo;

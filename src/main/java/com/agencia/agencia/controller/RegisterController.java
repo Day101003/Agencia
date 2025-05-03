@@ -39,7 +39,7 @@ public class RegisterController {
         u.setTelefono(dto.getTelefono());
         u.setTipo_usuario(2); // Usuario normal
         u.setFecha_registro(LocalDate.now());
-        u.setRuta_imagen_usuario("/assets/img/FotoPerfil/usuario2.png"); // Imagen por defecto
+        u.setRuta_imagen_usuario("/assets/img/FotoPerfil/default.png"); // Imagen por defecto
 
         usuarioService.registrarUsuario(u);
 

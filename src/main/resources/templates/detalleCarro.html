@@ -97,13 +97,7 @@
                     </div>
                  
                     <div class="buttons-container">
-                        <button class="btn btn-warning btn-lg btn-agregar-carrito me-2"
-                                th:disabled="${!carro.disponibilidad}" th:attr="data-id-carro=${carro.id_carro}"
-                                style="border-radius: 25px; padding: 12px 30px; transition: all 0.3s ease; background: #f1c40f; border: none;"
-                                onmouseover="this.style.background='#e67e22';"
-                                onmouseout="this.style.background='#f1c40f';">
-                                <i class="fas fa-cart-plus me-2"></i> Agregar al Carrito
-                            </button>
+                        <button class="btn btn-cart"><i class="fas fa-cart-plus"></i> Agregar al Carrito</button>
                     </div>
                 </div>
             </div>
@@ -111,8 +105,6 @@
     </div>
 
 
-    <script src="/js/btnCarrito.js"></script>
-    <script src="/js/carrito.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

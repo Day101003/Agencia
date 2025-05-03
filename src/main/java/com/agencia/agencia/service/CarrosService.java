@@ -3,6 +3,7 @@ package com.agencia.agencia.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import com.agencia.agencia.model.Usuario;
 import com.agencia.agencia.model.Carro;
 import com.agencia.agencia.repository.CarroRepository;
 import com.agencia.agencia.model.Marca;
@@ -21,10 +22,6 @@ public class CarrosService {
 
     public List<Carro> listarCarros(){
         return carroRepository.findAll();
-    }
-
-    public List<Carro> listarCarrosActivos() {
-        return carroRepository.findByEstado(1);
     }
 
     public Carro consultar(int id_carro){

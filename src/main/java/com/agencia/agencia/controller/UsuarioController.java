@@ -1,4 +1,3 @@
-
 package com.agencia.agencia.controller;
 
 import com.agencia.agencia.model.Usuario;
@@ -35,64 +34,62 @@ public class UsuarioController {
     }
 
     @PostMapping("/guardar")
-public String guardarUsuario(
-        @RequestParam("nombre") String nombre,
-        @RequestParam("contrasena") String contrasena,
-        @RequestParam("telefono") String telefono,
-        @RequestParam("fechaRegistro") String fechaRegistro,
-        @RequestParam("correo") String correo,
-        @RequestParam("tipoUsuario") Integer tipoUsuario,
-        @RequestParam("ruta_imagen_usuario") MultipartFile imagen,
-        RedirectAttributes redirectAttributes) {
+    public String guardarUsuario(
+            @RequestParam("nombre") String nombre,
+            @RequestParam("contrasena") String contrasena,
+            @RequestParam("telefono") String telefono,
+            @RequestParam("fechaRegistro") String fechaRegistro,
+            @RequestParam("correo") String correo,
+            @RequestParam("tipoUsuario") Integer tipoUsuario,
+            @RequestParam("ruta_imagen_usuario") MultipartFile imagen,
+            RedirectAttributes redirectAttributes) {
 
-    try {
-        Optional<Usuario> usuarioExistente = usuarioService.findByCorreo(correo);
-        if (usuarioExistente.isPresent()) {
-            redirectAttributes.addFlashAttribute("error", "El correo ya está registrado.");
-            redirectAttributes.addFlashAttribute("nombre", nombre);
-            redirectAttributes.addFlashAttribute("telefono", telefono);
-            redirectAttributes.addFlashAttribute("fechaRegistro", fechaRegistro);
-            redirectAttributes.addFlashAttribute("correo", correo);
-            return "redirect:/admin";
-        }
-
-        Usuario usuario = new Usuario();
-        usuario.setNombre(nombre);
-        usuario.setContrasena(passwordEncoder.encode(contrasena));
-        usuario.setTelefono(telefono);
-        usuario.setFecha_registro(LocalDate.parse(fechaRegistro));
-        usuario.setCorreo(correo);
-        usuario.setTipo_usuario(tipoUsuario);
-
-        if (!imagen.isEmpty()) {
-            String uploadDir = System.getProperty("user.dir") + "/src/main/resources/static/imagenes/";
-            File directory = new File(uploadDir);
-            if (!directory.exists()) {
-                directory.mkdirs();
+        try {
+            Optional<Usuario> usuarioExistente = usuarioService.findByCorreo(correo);
+            if (usuarioExistente.isPresent()) {
+                redirectAttributes.addFlashAttribute("error", "El correo ya está registrado.");
+                redirectAttributes.addFlashAttribute("nombre", nombre);
+                redirectAttributes.addFlashAttribute("telefono", telefono);
+                redirectAttributes.addFlashAttribute("fechaRegistro", fechaRegistro);
+                redirectAttributes.addFlashAttribute("correo", correo);
+                return "redirect:/admin";
             }
 
-            String originalNombre = imagen.getOriginalFilename();
-            String uniqueFileName = UUID.randomUUID().toString() + "_" + originalNombre;
-            String rutaImagen = "imagenes/" + uniqueFileName;
+            Usuario usuario = new Usuario();
+            usuario.setNombre(nombre);
+            usuario.setContrasena(passwordEncoder.encode(contrasena)); // 🔥 Encriptar contraseña
+            usuario.setTelefono(telefono);
+            usuario.setFecha_registro(LocalDate.parse(fechaRegistro));
+            usuario.setCorreo(correo);
+            usuario.setTipo_usuario(tipoUsuario);
 
-            File imagenFile = new File(uploadDir + uniqueFileName);
-            imagen.transferTo(imagenFile);
+            if (!imagen.isEmpty()) {
+                String uploadDir = System.getProperty("user.dir") + "/src/main/resources/static/imagenes/";
+                File directory = new File(uploadDir);
+                if (!directory.exists()) {
+                    directory.mkdirs();
+                }
 
-            usuario.setRuta_imagen_usuario(rutaImagen);
-        } else {
-            usuario.setRuta_imagen_usuario("/assets/img/FotoPerfil/usuario2.jpg");
+                String originalNombre = imagen.getOriginalFilename();
+                String uniqueFileName = UUID.randomUUID().toString() + "_" + originalNombre;
+                String rutaImagen = "imagenes/" + uniqueFileName;
+
+                File imagenFile = new File(uploadDir + uniqueFileName);
+                imagen.transferTo(imagenFile);
+
+                usuario.setRuta_imagen_usuario(rutaImagen);
+            } else {
+                usuario.setRuta_imagen_usuario("/assets/img/FotoPerfil/default.png"); // Imagen por defecto
+            }
+
+            usuarioService.add(usuario);
+            return "redirect:/admin";
+
+        } catch (IOException e) {
+            redirectAttributes.addFlashAttribute("error", "Error al guardar la imagen del usuario: " + e.getMessage());
+            return "redirect:/admin";
         }
-
-        usuarioService.add(usuario);
-        // Añadir mensaje de éxito
-        redirectAttributes.addFlashAttribute("success", "Administrador agregado exitosamente.");
-        return "redirect:/admin";
-
-    } catch (IOException e) {
-        redirectAttributes.addFlashAttribute("error", "Error al guardar la imagen del usuario: " + e.getMessage());
-        return "redirect:/admin";
     }
-}
 
     @GetMapping("/editar/{id}")
     public String editarForm(@PathVariable int id, Model model) {
@@ -164,8 +161,7 @@ public String guardarUsuario(
             return "redirect:/admin";
 
         } catch (IOException e) {
-            redirectAttributes.addFlashAttribute("error",
-                    "Error al actualizar la imagen del usuario: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("error", "Error al actualizar la imagen del usuario: " + e.getMessage());
             return "redirect:/admin";
         }
     }

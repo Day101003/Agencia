@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -33,7 +34,6 @@ public class OrdenService {
                 }
             });
         }
-        System.out.println("Orden cargada con detalles: " + orden);
         return orden;
     }
 
@@ -44,26 +44,17 @@ public class OrdenService {
         orden.setFecha_orden(LocalDate.now());
         orden.setEstado_pago(false);
         orden.setPrecio(0);
-        Orden savedOrden = ordenRepository.save(orden);
-        System.out.println("Nueva orden creada: " + savedOrden);
-        return savedOrden;
+        return ordenRepository.save(orden);
     }
 
     @Transactional
     public void updateOrder(Orden orden) {
-        // Recalcular el precio total antes de guardar
-        int totalPrice = orden.getDetalles().stream()
-                .mapToInt(d -> (int) (d.getCantidad() * d.getPrecio_unitario()))
-                .sum();
-        orden.setPrecio(totalPrice);
         ordenRepository.save(orden);
-        System.out.println("Orden actualizada con precio total: " + totalPrice);
     }
 
     @Transactional
     public void completeOrder(Orden orden) {
         orden.setEstado_pago(true);
         ordenRepository.save(orden);
-        System.out.println("Orden completada: " + orden);
     }
 }

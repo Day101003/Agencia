@@ -79,145 +79,10 @@
   --bs-highlight-bg: #fff4cc;
 }
 
-.favorite-btn {
-  border-radius: 25px;
-  padding: 10px 20px;
-  font-size: 1rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  transition: all 0.3s ease;
-  border: 2px solid #ffffff;
-  background-color: transparent;
-  color: #ffffff;
-}
-
-.favorite-btn:hover {
-  background-color: #642027;
-  color: #811f1f;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.favorite-btn i {
-  font-size: 1.2rem;
-  transition: transform 0.2s ease;
-}
-
-.favorite-btn:hover i {
-  transform: scale(1.2);
-}
-
-.favorite-btn.active {
-  background-color: #dc3545;
-  color: #fff;
-  border-color: #dc3545;
-}
-
-.favorite-btn.active i {
-  font-weight: 900; /* Cambia a ícono sólido cuando está activo */
-}
-
-.list-group-item img {
-  transition: transform 0.2s;
-}
-.list-group-item img:hover {
-  transform: scale(1.05);
-}
-.btn-eliminar-carrito {
-  transition: background-color 0.2s;
-}
-
 *,
 *::before,
 *::after {
   box-sizing: border-box;
-}
-
-.navbar-nav.ms-auto {
-  margin-right: 0 !important; 
-}
-
-#userProfile {
-  margin-left: 10px; 
-  margin-right: 0;
-  padding-right: 0; 
-}
-
-.navbar-collapse {
-  justify-content: flex-end; 
-}
-
-@media (max-width: 991px) {
-  #userProfile {
-      margin-left: 0;
-      margin-right: 0;
-      text-align: right;
-  }
-}
-
-
-@media (max-width: 576px) {
-  .carousel-control-prev-icon,
-  .carousel-control-next-icon {
-      width: 40px;
-      height: 40px;
-  }
-}
-
-.carousel-control-prev,
-.carousel-control-next {
-    z-index: 10; /* Asegúrate de que sea mayor que el de las imágenes */
-    padding: 10px; /* Ajusta el espaciado */
-    background-color: transparent; /* Quita el fondo gris */
-    border: none; /* Quita el borde */
-}
-
-.carousel-inner .carousel-item {
-    padding: 0 30px; /* Espacio alrededor de las imágenes */
-}
-
-.carousel-inner img {
-    max-width: 100%;
-    height: auto;
-}
-
-
-
-
-
-
-.portfolio-modal .modal-content {
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.portfolio-modal .btn {
-  font-weight: 600;
-  letter-spacing: 1px;
-}
-
-.car-details p {
-  font-size: 1.1rem;
-  color: #102942;
-}
-
-@media (max-width: 767px) {
-  .car-details {
-      padding: 20px !important;
-  }
-  
-  .modal-body {
-      padding: 15px !important;
-  }
-  
-  .btn-lg {
-      padding: 10px 20px !important;
-      font-size: 0.9rem !important;
-  }
 }
 
 /* Estilos para la barra de navegación */
@@ -11497,4 +11362,18 @@ section#contact form#contactForm :-ms-input-placeholder {
   text-align: center;
   font-size: 0.9rem;
   font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+.btn-agregar-favorito {
+  background-color: #e74c3c;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+
+.btn-agregar-favorito:hover {
+  background-color: #c0392b;
+}
+
+.favoritos-icono {
+  font-size: 24px;
+  color: #f39c12;
 }
