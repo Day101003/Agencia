@@ -24,7 +24,11 @@
 
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="/css/styles.css" rel="stylesheet" />
+    <!-- Para sweetAlerts-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+
+    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </head>
 
 <body id="page-top">
@@ -44,24 +48,58 @@
                     <li class="nav-item"><a class="nav-link" href="#portfolio">Carros</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contacto</a></li>
                 </ul>
-    
+
                 <!-- Botón Ingresar -->
-                <button id="loginButton" class="btn btn-outline-primary ms-2 fw-semibold" onclick="window.location.href='/home'">
+                <button id="loginButton" class="btn btn-outline-primary ms-2 fw-semibold"
+                    onclick="window.location.href='/home'">
                     Ingresar
                 </button>
-    
+
+
+                <!-- Botón de administrador -->
+                <button id="adminButton" class="btn btn-warning ms-2 fw-bold text-dark d-none"
+                    onclick="window.location.href='/admin'">
+                    Administradores
+                </button>
+
+
+
+                <!-- Icono del carrito -->
+                <a href="#" class="btn btn-dark btn-social mx-2" data-bs-toggle="modal" data-bs-target="#cartModal">
+                    <i class="fas fa-shopping-cart"></i>
+                </a>
+
+                <!-- ✅ BOTÓN para abrir favoritos -->
+                <a href="#" class="btn btn-dark btn-social mx-2" data-bs-toggle="modal"
+                    data-bs-target="#favoritosModal">
+                    <i class="fas fa-heart"></i>
+                    <span class="badge bg-danger" id="favoritosCount"></span>
+                </a>
+
+
+
+                <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+                <a href="https://wa.me/50684481408?text=Hola%2C%20quiero%20más%20información" target="_blank">
+                    <i class="fab fa-whatsapp" style="font-size: 40px; color: green;"></i>
+                </a>
+
                 <!-- Perfil de Usuario (visible solo si hay sesión) -->
                 <div id="userProfile" class="dropdown d-none">
                     <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="userDropdown"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         <!-- Imagen de perfil más pequeña y elegante -->
-                        <img id="userAvatar" src="assets/img/FotoPerfil/imagen.jpg" alt="Perfil" width="30" height="30" class="rounded-circle me-2">
+                        <img id="userAvatar" src="assets/img/FotoPerfil/usuario2.jpg" alt="Perfil" width="60"
+                            height="60" class="rounded-circle me-2">
                         <!-- Nombre de usuario reducido -->
-                        <span id="userName" class="fw-semibold text-dark" style="font-size: 0.9rem;">Nombre Usuario</span>
+                        <span id="userName" class="fw-semibold text-dark" style="font-size: 0.9rem; ">Nombre
+                            Usuario</span>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end text-small shadow" aria-labelledby="userDropdown" style="min-width: 200px;">
+                    <ul class="dropdown-menu dropdown-menu-end text-small shadow" aria-labelledby="userDropdown"
+                        style="min-width: 200px;">
                         <li>
-                            <h6 class="dropdown-header" id="userEmail" style="font-size: 0.85rem;">usuario@dominio.com</h6>
+                            <h6 class="dropdown-header" id="userEmail" style="font-size: 0.85rem;">usuario@dominio.com
+                            </h6>
                         </li>
                         <li>
                             <hr class="dropdown-divider">
@@ -69,37 +107,12 @@
                         <li><a class="dropdown-item text-danger" href="#" onclick="logout()">Cerrar sesión</a></li>
                     </ul>
                 </div>
-    
-                <!-- Botón de administrador -->
-                <button class="btn btn-warning ms-2 fw-bold text-dark" onclick="window.location.href='/admin'">
-                    Administradores
-                </button>
-    
-                <!-- Icono del carrito -->
-                <a href="#" class="btn btn-dark btn-social mx-2" data-bs-toggle="modal" data-bs-target="#cartModal">
-                    <i class="fas fa-shopping-cart"></i>
-                </a>
-
-           <!-- ✅ BOTÓN para abrir favoritos -->
-<a href="#" class="btn btn-dark btn-social mx-2" data-bs-toggle="modal" data-bs-target="#favoritosModal">
-    <i class="fas fa-heart"></i>
-    <span class="badge bg-danger" id="favoritosCount"></span>
-</a>
-
-                
-    
-                <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    
-                <a href="https://wa.me/50684481408?text=Hola%2C%20quiero%20más%20información" target="_blank">
-                    <i class="fab fa-whatsapp" style="font-size: 40px; color: green;"></i>
-                </a>
             </div>
         </div>
     </nav>
-    
-    <!-- Agregar espacio de separación para el navbar -->
-    <div style="margin-top: 80px;"></div>    
 
+    <!-- Agregar espacio de separación para el navbar -->
+    <div style="margin-top: 80px;"></div>
 
 
 </body>
@@ -109,10 +122,9 @@
     <div class="container">
         <div class="masthead-subheading" style="color: rgb(255, 198, 10);">Agencia JDNK</div>
         <div class="masthead-heading text-uppercase" style="color: rgb(255, 198, 10);">BIENVENIDOS</div>
-        <a class="btn btn-primary btn-xl text-uppercase" href="#services">Más información</a>
+        <a class="btn btn-primary btn-xl text-uppercase" href="/totalCarros">Mira Más Autos</a>
     </div>
 </header>
-
 <!-- Servicios (Marcas Carousel) -->
 <section class="page-section bg-light" id="services">
     <div class="container">
@@ -127,13 +139,13 @@
                         th:classappend="${iterStat.first} ? 'active' : ''">
                         <div class="row justify-content-center">
                             <div th:each="innerIndex : ${#numbers.sequence(iterStat.index, iterStat.index + 2)}"
-                                th:if="${innerIndex < marcas.size()}" class="col-6 col-md-3 mb-4 px-2">
+                                th:if="${innerIndex < marcas.size()}" class="col-6 col-sm-4 col-md-3 mb-4 px-2">
                                 <a th:href="@{/marcasTipos(id_marca=${marcas[innerIndex].id_marca})}"
-                                    class="card text-center text-decoration-none"
-                                    style="border: 2px solid #f1c40f; border-radius: 15px; background: linear-gradient(135deg, #ffffff, #f8f9fa); padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.3s;">
+                                    class="card text-center text-decoration-none h-100"
+                                    style="border: 2px solid #f1c40f; border-radius: 15px; background: linear-gradient(135deg, #f8f9fa, #f8f9fa); padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.3s;">
                                     <h5 class="card-title"
                                         th:text="${marcas[innerIndex].nombre_marca != null ? marcas[innerIndex].nombre_marca : 'Sin Nombre'}"
-                                        style="font-size: 1.8rem; color: #2c3e50; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin: 0;">
+                                        style="font-size: 1.5rem; color: #2c3e50; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin: 0;">
                                     </h5>
                                 </a>
                             </div>
@@ -141,13 +153,13 @@
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#marcasCarousel"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    data-bs-slide="prev" style="background-color: transparent; border: none;">
+                    <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: invert(1);"></span>
                     <span class="visually-hidden">Previous</span>
                 </button>
                 <button class="carousel-control-next" type="button" data-bs-target="#marcasCarousel"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    data-bs-slide="next" style="background-color: transparent; border: none;">
+                    <span class="carousel-control-next-icon" aria-hidden="true" style="filter: invert(1);"></span>
                     <span class="visually-hidden">Next</span>
                 </button>
             </div>
@@ -159,8 +171,7 @@
 </section>
 
 
-
-<!-- Portfolio Carousel Carros-->
+<!-- Portfolio Carousel Carros -->
 <section class="page-section bg-light" id="portfolio">
     <div class="container">
         <div class="text-center">
@@ -169,12 +180,11 @@
         </div>
         <div id="portfolioCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
-                <div th:each="carro, iterStat : ${carros}" th:if="${iterStat.index % 2 == 0}" class="carousel-item"
-                    th:classappend="${iterStat.first} ? 'active' : ''">
+                <div th:each="carro, iterStat : ${carros}" th:if="${iterStat.index % 2 == 0 and carro.estado == 1}"
+                    class="carousel-item" th:classappend="${iterStat.first} ? 'active' : ''">
                     <div class="row justify-content-center">
-
-                        <div class="col-6 col-md-5 px-2">
-                            <div class="card" style="width: 26rem;">
+                        <div class="col-12 col-sm-6 col-md-5 mb-4 px-2">
+                            <div class="card h-100">
                                 <a class="portfolio-link" data-bs-toggle="modal"
                                     th:attr="data-bs-target='#portfolioModal' + ${carro.id_carro}">
                                     <img th:src="@{'/' + ${carro.imagenCarros != null ? carro.imagenCarros.ruta_imagen : 'assets/img/default-car.jpg'}}"
@@ -191,9 +201,9 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div th:if="${iterStat.index + 1 < carros.size()}" class="col-6 col-md-5 px-2">
-                            <div class="card" style="width: 26rem;">
+                        <div th:if="${iterStat.index + 1 < carros.size() and carros[iterStat.index + 1].estado == 1}"
+                            class="col-12 col-sm-6 col-md-5 mb-4 px-2">
+                            <div class="card h-100">
                                 <a class="portfolio-link" data-bs-toggle="modal"
                                     th:attr="data-bs-target='#portfolioModal' + ${carros[iterStat.index + 1].id_carro}">
                                     <img th:src="@{'/' + ${carros[iterStat.index + 1].imagenCarros != null ? carros[iterStat.index + 1].imagenCarros.ruta_imagen : 'assets/img/default-car.jpg'}}"
@@ -213,7 +223,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Controles del carrusel -->
             <button class="carousel-control-prev" type="button" data-bs-target="#portfolioCarousel"
                 data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"
@@ -230,10 +239,9 @@
     </div>
 </section>
 
-
 <!-- Portfolio Modals -->
-<div th:each="carro : ${carros}" class="portfolio-modal modal fade" th:id="'portfolioModal' + ${carro.id_carro}"
-    tabindex="-1" role="dialog" aria-hidden="true">
+<div th:each="carro : ${carros}" th:if="${carro.estado == 1}" class="portfolio-modal modal fade"
+    th:id="'portfolioModal' + ${carro.id_carro}" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content"
             style="border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
@@ -252,15 +260,26 @@
                             <p class="item-intro text-muted mb-4" style="font-style: italic;">Perfecto para ti</p>
 
                             <div class="image-container mb-4"
-                                style="max-height: 400px; overflow: hidden; border-radius: 10px;">
+                                style="position: relative; max-height: 400px; overflow: hidden; border-radius: 10px;">
                                 <img th:src="@{'/' + ${carro.imagenCarros != null ? carro.imagenCarros.ruta_imagen : 'assets/img/default-car.jpg'}}"
                                     class="img-fluid" alt="Car Image"
                                     style="width: 100%; object-fit: cover; transition: transform 0.3s ease;"
                                     onmouseover="this.style.transform='scale(1.05)'"
                                     onmouseout="this.style.transform='scale(1)'">
+
+                                <!-- Botón para agregar a favoritos -->
+                                <button class="btn favorite-btn"
+                                    style="position: absolute; top: 15px; right: 15px; background: #dc3545; border: none; color: #fff; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.3s ease;"
+                                    th:attr="data-id-carro=${carro.id_carro}"
+                                    th:onclick="|agregarAFavoritos(${carro.id_carro}, this)|"
+                                    onmouseover="this.style.background='#a71d2a';"
+                                    onmouseout="this.style.background='#dc3545';">
+                                    <i class="far fa-heart"></i>
+                                </button>
                             </div>
 
-                            <div class="car-details p-4" style="background: #f8f9fa; border-radius: 10px;">
+                            <div class="car-details p-4"
+                                style="background: #f8f9fa; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                                 <div class="row text-left">
                                     <div class="col-md-6 mb-3">
                                         <p class="mb-2"><strong>Año:</strong> <span th:text="${carro.ano}"></span></p>
@@ -284,38 +303,32 @@
                                     </div>
                                 </div>
                             </div>
-                            <p class="mb-0">
-                                <strong>Estado:</strong>
-                                <span th:class="${carro.disponibilidad} ? 'text-success' : 'text-danger'"
-                                    th:text="${carro.disponibilidad} ? 'Disponible' : 'Vendido'"
-                                    style="font-weight: 600;">
+
+                            <!-- Estado separado con distintivo -->
+                            <div class="text-center mt-4">
+                                <span th:classappend="${carro.disponibilidad} ? 'badge bg-success' : 'badge bg-danger'"
+                                    style="font-size: 1.2rem; padding: 10px 20px; border-radius: 20px;">
+                                    <span th:text="${carro.disponibilidad} ? 'Disponible' : 'Vendido'"></span>
                                 </span>
-                            </p>
-                        </div>
+                            </div>
 
-                        <div class="mt-5">
-                            <button class="btn btn-warning btn-lg btn-agregar-carrito me-2"
-                                th:disabled="${!carro.disponibilidad}" th:attr="data-id-carro=${carro.id_carro}"
-                                style="border-radius: 25px; padding: 12px 30px; transition: all 0.3s ease; background: #f1c40f; border: none;"
-                                onmouseover="this.style.background='#e67e22';"
-                                onmouseout="this.style.background='#f1c40f';">
-                                <i class="fas fa-cart-plus me-2"></i> Agregar al Carrito
-                            </button>
-
-                           <!-- Botón para agregar a favoritos -->
-                            <button class="btn btn-danger btn-lg btn-agregar-favorito me-2" 
-                            th:attr="data-id-carro=${carro.id_carro}" 
-                            th:onclick="|agregarAFavoritos(${carro.id_carro})|">
-                            <i class="fas fa-heart me-2"></i> Agregar a Favoritos
-                            </button>
-
-
-                            <button class="btn btn-primary btn-lg text-uppercase" data-bs-dismiss="modal" type="button"
-                                style="border-radius: 25px; padding: 12px 30px; transition: all 0.3s ease; background: #10212c; border: none;"
-                                onmouseover="this.style.background='#10212c';"
-                                onmouseout="this.style.background=' #133953';">
-                                <i class="fas fa-xmark me-2"></i> Cerrar
-                            </button>
+                            <!-- Botones -->
+                            <div class="mt-5 text-center">
+                                <button class="btn btn-warning btn-lg btn-agregar-carrito me-2"
+                                    th:disabled="${!carro.disponibilidad}" th:attr="data-id-carro=${carro.id_carro}"
+                                    style="border-radius: 25px; padding: 12px 30px; transition: all 0.3s ease; background: #f1c40f; border: none;"
+                                    onmouseover="this.style.background='#e67e22';"
+                                    onmouseout="this.style.background='#f1c40f';">
+                                    <i class="fas fa-cart-plus me-2"></i> Agregar al Carrito
+                                </button>
+                                <button class="btn btn-primary btn-lg text-uppercase" data-bs-dismiss="modal"
+                                    type="button"
+                                    style="border-radius: 25px; padding: 12px 30px; transition: all 0.3s ease; background: #10212c; border: none;"
+                                    onmouseover="this.style.background='#10212c';"
+                                    onmouseout="this.style.background=' #133953';">
+                                    <i class="fas fa-xmark me-2"></i> Cerrar
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -323,27 +336,26 @@
         </div>
     </div>
 </div>
-</div>
 
 
 <!-- Cart Modal -->
 <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="cartModalLabel">Mi Carrito</h5>
+        <div class="modal-content" style="border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="cartModalLabel">Mi Carrito de Compras</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body p-4">
                 <div id="cartContent">
-                    <p>Cargando carrito...</p>
+                    <p class="text-muted text-center">Cargando carrito...</p>
                 </div>
-                <div class="text-end mt-3">
-                    <h5>Total: $<span id="cartTotal">0</span></h5>
+                <div class="text-end mt-4">
+                    <h4 class="fw-bold">Total: $<span id="cartTotal">0</span></h4>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-primary" id="payButton" disabled>Pagar</button>
             </div>
         </div>
@@ -353,14 +365,14 @@
 <!-- MODAL para mostrar los favoritos -->
 <div class="modal fade" id="favoritosModal" tabindex="-1" aria-labelledby="favoritosModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
+        <div class="modal-content" style="border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+            <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title" id="favoritosModalLabel">Mis Favoritos</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body p-4">
                 <div id="favoritosContent">
-                    <p>Cargando favoritos...</p>
+                    <p class="text-muted text-center">Cargando favoritos...</p>
                 </div>
             </div>
             <div class="modal-footer">
@@ -373,25 +385,25 @@
 
 </section>
 
-<!-- Clients-->
+<!-- Clients -->
 <div class="py-5">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-3 col-sm-6 my-3">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 my-3">
                 <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/marca5.jpg"
-                        alt="..." aria-label="Microsoft Logo" /></a>
+                        alt="Microsoft Logo" /></a>
             </div>
-            <div class="col-md-3 col-sm-6 my-3">
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 my-3">
                 <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/marca1.jpg"
-                        alt="..." aria-label="Google Logo" /></a>
+                        alt="Google Logo" /></a>
             </div>
-            <div class="col-md-3 col-sm-6 my-3">
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 my-3">
                 <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/bmw2.jpg"
-                        alt="..." aria-label="Facebook Logo" /></a>
+                        alt="Facebook Logo" /></a>
             </div>
-            <div class="col-md-3 col-sm-6 my-3">
-                <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/marca3.jpg" alt="..."
-                        aria-label="IBM Logo" /></a>
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 my-3">
+                <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/marca3.jpg"
+                        alt="IBM Logo" /></a>
             </div>
         </div>
     </div>
@@ -480,6 +492,7 @@
         </div>
     </div>
 </footer>
+
 
 <script>
     // Función para obtener el token JWT de la cookie
@@ -582,207 +595,96 @@
 
     // Existing user profile and logout code
     window.addEventListener('DOMContentLoaded', async () => {
-    const cookieValue = document.cookie.split('; ').find(row => row.startsWith('JWT_TOKEN='));
-    const token = cookieValue ? cookieValue.split('=')[1] : null;
+        const cookieValue = document.cookie.split('; ').find(row => row.startsWith('JWT_TOKEN='));
+        const token = cookieValue ? cookieValue.split('=')[1] : null;
 
-    const loginButton = document.getElementById('loginButton');
-    const userProfile = document.getElementById('userProfile');
-    const userAvatar = document.getElementById('userAvatar');
-    const userName = document.getElementById('userName');
-    const userEmail = document.getElementById('userEmail');
+        const loginButton = document.getElementById('loginButton');
+        const userProfile = document.getElementById('userProfile');
+        const userAvatar = document.getElementById('userAvatar');
+        const userName = document.getElementById('userName');
+        const userEmail = document.getElementById('userEmail');
 
-    if (token) {
-        try {
-            const res = await fetch('/api/auth/profile',    {
-                headers: {
-                    'Authorization': 'Bearer ' + token
-                }
-            });
-
-            if (res.ok) {
-                const user = await res.json();
-                userName.textContent = user.nombre || "Usuario";
-                userAvatar.src = user.ruta_imagen_usuario || "/assets/img/FotoPerfil/default.png";
-                userEmail.textContent = user.correo || "Correo no disponible";
-
-                loginButton.classList.add('d-none');
-                userProfile.classList.remove('d-none');
-
-                // ✅ Aquí escondemos el botón admin si no es tipo_usuario 1
-                const adminButton = document.querySelector('button[onclick*="/admin"]');
-                if (user.tipo_usuario !== 1 && adminButton) {
-                    adminButton.classList.add('d-none');
-                }
-
-            } else {
-                console.warn("⚠ Token no válido o expirado");
-            }
-        } catch (err) {
-            console.error("❌ Error al cargar perfil:", err);
+        if (adminButton) {
+            adminButton.classList.add('d-none');
         }
-    } else {
-        console.warn("⚠ JWT_TOKEN no encontrado en cookies.");
-    }
-});
 
-
-async function logout() {
-    try {
-        await fetch('/api/auth/logout', { method: 'POST' });
-    } catch (e) {
-        console.warn('Error llamando logout backend, pero seguimos.', e);
-    }
-
-    // Ahora limpiamos la cookie en el navegador también
-    document.cookie = 'JWT_TOKEN=; Max-Age=0; path=/; SameSite=Strict';
-
-    window.location.href = '/home'; // Redirige a Home o donde quieras
-}
-
-
-
-</script>
-
-<!-- Script para agregar y cargar favoritos dentro del modal -->
-<script>
-    async function agregarAFavoritos(carroId) {
-        try {
-            const response = await fetch(`/favoritos/agregar/${carroId}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' }
-            });
-
-            if (response.ok) {
-                alert('¡Carro agregado a favoritos!');
-                await cargarFavoritos();
-            } else {
-                alert('❌ Error al agregar a favoritos.');
-            }
-        } catch (error) {
-            console.error('Error al agregar a favoritos:', error);
-            alert('❌ Hubo un error al agregar.');
-        }
-    }
-
-    async function eliminarDeFavoritos(carroId) {
-        if (!confirm('¿Eliminar este carro de tus favoritos?')) return;
-
-        try {
-            const response = await fetch(`/favoritos/eliminar/${carroId}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' }
-            });
-
-            if (response.ok) {
-                alert('Carro eliminado de favoritos.');
-                await cargarFavoritos();
-            } else {
-                alert('❌ Error al eliminar favorito.');
-            }
-        } catch (error) {
-            console.error('Error al eliminar favorito:', error);
-            alert('❌ Error crítico al eliminar.');
-        }
-    }
-
-    async function agregarAlCarritoDesdeFavoritos(carroId) {
-    const token = getJwtToken();
-
-    if (!token) {
-        window.location.href = '/home';
-        return;
-    }
-
-    try {
-        const response =  await fetch(`/cart/add?carroId=${carroId}`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
-        });
-
-        if (response.ok) {
-            alert('¡Carro agregado al carrito!');
-            await cargarCarrito();  // Opcional: actualizar carrito
-            await cargarFavoritos(); // Opcional: actualizar favoritos
-        } else {
-            alert('❌ Error al agregar al carrito.');
-        }
-    } catch (error) {
-        console.error('Error al agregar al carrito desde favoritos:', error);
-    }
-}
-
-
-
-async function cargarFavoritos() {
-    const favoritosContent = document.getElementById('favoritosContent');
-    const favoritosCount = document.getElementById('favoritosCount');
-
-    try {
-        const response = await fetch('/favoritos', { method: 'GET' });
-
-        if (response.ok) {
-            const favoritos = await response.json();
-            favoritosCount.textContent = favoritos.length;
-
-            if (favoritos.length > 0) {
-                let html = '<ul class="list-group">';
-                favoritos.forEach(favorito => {
-                    html += `
-                        <li class="list-group-item d-flex justify-content-between align-items-start flex-column mb-2">
-                            <div class="d-flex w-100 justify-content-between align-items-center">
-                                <div>
-                                    <strong>${favorito.marca}</strong> ${favorito.modelo} (${favorito.ano})
-                                </div>
-                                <div>
-                                    <span class="badge bg-primary rounded-pill">$${favorito.precio.toLocaleString()}</span>
-                                </div>
-                            </div>
-                            <div class="mt-2 d-flex justify-content-end gap-2">
-                                <!-- Botón Agregar al carrito -->
-                                <button class="btn btn-sm btn-success" onclick="agregarAlCarritoDesdeFavoritos(${favorito.idCarro})">
-                                    <i class="fas fa-cart-plus"></i> Agregar al carrito
-                                </button>
-
-                                <!-- Botón Eliminar de favoritos -->
-                                <button class="btn btn-sm btn-danger" onclick="eliminarDeFavoritos(${favorito.idCarro})">
-                                    <i class="fas fa-trash"></i> Eliminar
-                                </button>
-                            </div>
-                        </li>
-                    `;
+        if (token) {
+            try {
+                const res = await fetch('/api/auth/profile', {
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
                 });
-                html += '</ul>';
 
-                favoritosContent.innerHTML = html;
-            } else {
-                favoritosContent.innerHTML = '<p>No tienes favoritos guardados.</p>';
+                if (res.ok) {
+                    const user = await res.json();
+                    userName.textContent = user.nombre || "Usuario";
+                    userAvatar.src = user.ruta_imagen_usuario || "/assets/img/FotoPerfil/usuario2.jpg";
+                    userEmail.textContent = user.correo || "Correo no disponible";
+
+                   loginButton.classList.add('d-none');
+                    userProfile.classList.remove('d-none');
+
+                    // Mostrar el botón de Administradores solo si el usuario es administrador (tipo_usuario == 1)
+                    if (adminButton && user.tipo_usuario === 1) {
+                        adminButton.classList.remove('d-none');
+                    }
+
+                } else {
+                    console.warn("⚠ Token no válido o expirado");
+                }
+            } catch (err) {
+                console.error("❌ Error al cargar perfil:", err);
             }
         } else {
-            favoritosContent.innerHTML = '<p>❌ Error al cargar los favoritos.</p>';
-            favoritosCount.textContent = '0';
+            console.warn("⚠ JWT_TOKEN no encontrado en cookies.");
         }
-    } catch (error) {
-        console.error('Error al cargar favoritos:', error);
-        favoritosContent.innerHTML = '<p>❌ Error al cargar los favoritos.</p>';
-        favoritosCount.textContent = '0';
+    });
+
+
+    async function logout() {
+        try {
+            await fetch('/api/auth/logout', { method: 'POST' });
+        } catch (e) {
+            console.warn('Error llamando logout backend, pero seguimos.', e);
+        }
+
+        // Ahora limpiamos la cookie en el navegador también
+        document.cookie = 'JWT_TOKEN=; Max-Age=0; path=/; SameSite=Strict';
+
+        window.location.href = '/home'; // Redirige a Home o donde quieras
     }
-}
 
 
-    // ✅ Cargar favoritos al abrir modal
-    document.getElementById('favoritosModal').addEventListener('show.bs.modal', cargarFavoritos);
+
+    // Nuevo script para el efecto de desvanecimiento del navbar
+    window.addEventListener('scroll', () => {
+        const navbar = document.querySelector('.navbar');
+        const scrollPosition = window.scrollY; // Posición actual del scroll
+        const fadeStart = 100; // Punto donde comienza el desvanecimiento (en píxeles)
+        const fadeEnd = 450; // Punto donde el navbar estará completamente oculto (en píxeles)
+
+        let opacity = 1;
+        if (scrollPosition >= fadeStart) {
+            opacity = 1 - (scrollPosition - fadeStart) / (fadeEnd - fadeStart);
+        }
+
+
+        opacity = Math.max(0, Math.min(1, opacity));
+
+
+        navbar.style.opacity = opacity;
+    });
 </script>
 
 
 
 
 <script src="/js/carrito.js"></script>
+<script src="/js/favoritos.js"></script>
+<script src="/js/contactForm.js"></script>
+
 <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
-<script src="/js/scripts.js"></script>
+
 
 </body>
-
-</html>

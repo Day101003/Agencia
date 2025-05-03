@@ -7,6 +7,7 @@ public class CarroDTO {
     private Integer ano;
     private ModeloDTO modelo;
     private MarcaDTO marca;
+    private String rutaImagen;
 
     // Getters y setters
     public Long getIdCarro() { return idCarro; }
@@ -19,4 +20,6 @@ public class CarroDTO {
     public void setModelo(ModeloDTO modelo) { this.modelo = modelo; }
     public MarcaDTO getMarca() { return marca; }
     public void setMarca(MarcaDTO marca) { this.marca = marca; }
+    public String getRutaImagen() { return rutaImagen; }
+    public void setRutaImagen(String rutaImagen) { this.rutaImagen = rutaImagen; }
 }

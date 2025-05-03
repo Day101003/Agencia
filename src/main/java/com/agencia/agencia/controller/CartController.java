@@ -6,6 +6,7 @@ import com.agencia.agencia.service.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.stream.Collectors;
@@ -44,27 +45,58 @@ public class CartController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Void> addToCart(@RequestParam("carroId") int carroId) {
+    @Transactional
+    public ResponseEntity<String> addToCart(@RequestParam("carroId") int carroId) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null || auth.getPrincipal().equals("anonymousUser")) {
-            return ResponseEntity.status(401).build(); // Unauthorized
+            return ResponseEntity.status(401).body("Unauthorized"); // Unauthorized
         }
 
         String email = auth.getName();
         Usuario usuario = usuarioService.findByCorreo(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Orden orden = ordenService.findOrCreateOpenOrder(usuario);
-        Carro carro = carrosService.consultar(carroId);
-        if (carro == null || !carro.isDisponibilidad()) {
-            return ResponseEntity.status(400).build(); // Bad Request
+        try {
+            // Obtener la orden abierta del usuario
+            Orden orden = ordenService.findOrCreateOpenOrder(usuario);
+            System.out.println("Orden antes de añadir detalle: " + orden);
+
+            // Verificar si el carro ya está en el carrito
+            boolean carroExists = orden.getDetalles().stream()
+                    .anyMatch(detalle -> detalle.getCarro().getId_carro() == carroId);
+            if (carroExists) {
+                return ResponseEntity.status(400).body("El vehículo ya se encuentra en el carrito de compras.");
+            }
+
+            // Consultar el carro
+            Carro carro = carrosService.consultar(carroId);
+            if (carro == null || !carro.isDisponibilidad()) {
+                return ResponseEntity.status(400).body("Carro no disponible o no encontrado"); 
+            }
+
+            
+            DetalleOrdenes detalle = detalleOrdenesService.addCarToOrder(orden, carro);
+            System.out.println("Detalle añadido: " + detalle);
+
+           
+            orden = ordenService.findOrCreateOpenOrder(usuario);
+            System.out.println("Orden después de añadir detalle: " + orden);
+
+            
+            int totalPrice = orden.getDetalles().stream()
+                    .mapToInt(d -> (int) (d.getCantidad() * d.getPrecio_unitario()))
+                    .sum();
+            orden.setPrecio(totalPrice);
+
+         
+            ordenService.updateOrder(orden);
+            System.out.println("Precio total actualizado: " + totalPrice);
+
+            return ResponseEntity.ok("Carro añadido al carrito exitosamente");
+        } catch (RuntimeException e) {
+            System.err.println("Error al añadir al carrito: " + e.getMessage());
+            return ResponseEntity.status(400).body("Error: " + e.getMessage());
         }
-
-        DetalleOrdenes detalle = detalleOrdenesService.addCarToOrder(orden, carro);
-        orden.setPrecio(orden.getPrecio() + carro.getPrecio_carro());
-        ordenService.updateOrder(orden);
-
-        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/checkout")
@@ -92,6 +124,57 @@ public class CartController {
         ordenService.createOrder(usuario);
 
         return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/remove")
+    @Transactional
+    public ResponseEntity<String> removeFromCart(@RequestParam("detalleId") Long detalleId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || auth.getPrincipal().equals("anonymousUser")) {
+            return ResponseEntity.status(401).body("Unauthorized"); // Unauthorized
+        }
+
+        String email = auth.getName();
+        Usuario usuario = usuarioService.findByCorreo(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        try {
+            System.out.println("Intentando eliminar detalle con ID: " + detalleId);
+
+            // Obtener la orden abierta del usuario
+            Orden orden = ordenService.findOrCreateOpenOrder(usuario);
+            System.out.println("Orden antes de eliminar: " + orden);
+
+            // Verificar que el detalle pertenece a la orden del usuario
+            DetalleOrdenes detalle = orden.getDetalles().stream()
+                    .filter(d -> d.getId_detalle() == detalleId)
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("Detalle not found in order"));
+
+            // Eliminar el detalle
+            orden.getDetalles().remove(detalle); // Remover de la lista en memoria
+            detalleOrdenesService.removeCarFromOrder(detalleId);
+            System.out.println("Detalle eliminado de la base de datos");
+
+            
+            orden = ordenService.findOrCreateOpenOrder(usuario);
+            System.out.println("Orden después de eliminar: " + orden);
+
+            
+            int totalPrice = orden.getDetalles().stream()
+                    .mapToInt(d -> (int) (d.getCantidad() * d.getPrecio_unitario()))
+                    .sum();
+            orden.setPrecio(totalPrice);
+
+           
+            ordenService.updateOrder(orden);
+            System.out.println("Precio total actualizado después de eliminar: " + totalPrice);
+
+            return ResponseEntity.ok("Carro eliminado del carrito exitosamente");
+        } catch (RuntimeException e) {
+            System.err.println("Error al eliminar detalle: " + e.getMessage());
+            return ResponseEntity.status(400).body("Error: " + e.getMessage());
+        }
     }
 
     // Métodos de mapeo
@@ -123,13 +206,18 @@ public class CartController {
     private CarroDTO mapToCarroDTO(Carro carro) {
         CarroDTO carroDTO = new CarroDTO();
         carroDTO.setIdCarro(carro.getId_carro());
-        carroDTO.setPrecioCarro(carro.getPrecio_carro()); // Mapeamos a precioCarro para el frontend
+        carroDTO.setPrecioCarro(carro.getPrecio_carro());
         carroDTO.setAno(carro.getAno());
         if (carro.getModelo() != null) {
             carroDTO.setModelo(mapToModeloDTO(carro.getModelo()));
         }
         if (carro.getMarca() != null) {
             carroDTO.setMarca(mapToMarcaDTO(carro.getMarca()));
+        }
+        if (carro.getImagenCarros() != null) {
+            carroDTO.setRutaImagen(carro.getImagenCarros().getRuta_imagen());
+        } else {
+            carroDTO.setRutaImagen("assets/img/default-car.jpg");
         }
         return carroDTO;
     }
@@ -147,5 +235,4 @@ public class CartController {
         marcaDTO.setNombreMarca(marca.getNombre_marca());
         return marcaDTO;
     }
-    
 }
